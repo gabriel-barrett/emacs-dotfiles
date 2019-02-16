@@ -25,7 +25,7 @@
       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))))
  '(package-selected-packages
    (quote
-    (evil-leader rust-mode use-package zenburn-theme magit latex-pretty-symbols helm evil))))
+    (exwm evil-leader rust-mode use-package zenburn-theme magit latex-pretty-symbols helm evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
