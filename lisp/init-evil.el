@@ -1,5 +1,7 @@
 (setq evil-want-C-u-scroll 1)
 
+(require 'evil)
+
 (dolist (mode '(package-menu-mode))
     (add-to-list 'evil-motion-state-modes mode))
 (delete 'package-menu-mode evil-emacs-state-modes)
@@ -12,6 +14,6 @@
   (delete 'term-mode evil-insert-state-modes)
   (delete 'eshell-mode evil-insert-state-modes)
 
-(require 'evil)
 (evil-mode 1)
+
 (provide 'init-evil)
