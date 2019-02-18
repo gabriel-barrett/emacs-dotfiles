@@ -1,13 +1,29 @@
+;; Prerequisites
+(let ((minver "25.1"))
+  (when (version< emacs-version minver)
+    (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
+
+;;; Speed up init.
+;; Temporarily reduce garbage collection during startup. Inspect `gcs-done'.
+(defun custom/reset-gc-cons-threshold ()
+  (setq gc-cons-threshold (car (get 'gc-cons-threshold 'standard-value))))
+(setq gc-cons-threshold (* 64 1024 1024))
+(add-hook 'after-init-hook 'custom/reset-gc-cons-threshold)
+;; Temporarily disable the file name handler.
+(setq default-file-name-handler-alist file-name-handler-alist)
+(setq file-name-handler-alist nil)
+(defun custom/reset-file-name-handler-alist ()
+  (setq file-name-handler-alist
+        (append default-file-name-handler-alist file-name-handler-alist))
+  (cl-delete-duplicates file-name-handler-alist :test 'equal))
+(add-hook 'after-init-hook 'custom/reset-file-name-handler-alist)
+
 ;; Packages
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 
 ;; Extra config files
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-
-;; Custom set variables
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file 'noerror)
 
 ;; Use package
 (unless (package-installed-p 'use-package)
@@ -58,9 +74,6 @@
 (ido-everywhere 1)
 (setq ido-enable-flex-matching 1)
 
-;; Trailing whitespace is unnecessary
-(add-hook 'before-save-hook 'whitespace-cleanup)
-
 ;; Evil mode
 (require 'init-evil)
 
@@ -68,8 +81,12 @@
 (require 'latex-pretty-symbols)
 (add-hook 'org-mode-hook 'latex-unicode-simplified)
 
-
-;; Open .v files with Proof General's Coq mode
+;; Coq mode
 (load "~/.emacs.d/lisp/PG/generic/proof-site")
+
+;;; Finalization
+;; Custom set variables
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file 'noerror)
 
 (provide 'init)

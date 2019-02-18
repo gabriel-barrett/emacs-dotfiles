@@ -1,4 +1,4 @@
-(defun air--config-evil ()
+(defun custom/config-evil ()
   "Configure evil mode."
   (dolist (mode '(package-menu-mode))
     (add-to-list 'evil-motion-state-modes mode))
@@ -17,7 +17,7 @@
   (setq evil-want-C-u-scroll 1)
   :commands (evil-mode evil-define-key)
   :config
-  (air--config-evil))
+  (custom/config-evil))
 
 (evil-mode 1)
 (provide 'init-evil)
