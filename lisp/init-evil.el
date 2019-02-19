@@ -1,6 +1,7 @@
 (defun custom/config-evil ()
   "Configure evil mode."
-  (dolist (mode '(package-menu-mode))
+  (dolist (mode '(package-menu-mode
+                  eww-mode))
     (add-to-list 'evil-motion-state-modes mode))
   (delete 'package-menu-mode evil-emacs-state-modes)
 

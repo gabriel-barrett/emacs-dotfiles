@@ -18,7 +18,7 @@
   (cl-delete-duplicates file-name-handler-alist :test 'equal))
 (add-hook 'after-init-hook 'custom/reset-file-name-handler-alist)
 
-;; Packages
+;; Packaging config
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 
@@ -42,7 +42,6 @@
   (scroll-bar-mode 0))
 (setq visible-bell 1)
 (setq column-number-mode 1)
-(load-theme 'zenburn 1)
 
 ;; Misc
 (show-paren-mode 1)
@@ -57,11 +56,19 @@
    delete-old-versions 1
    version-control 1)
 
+;;; Packages
+
+;; Theme
+(use-package zenburn-theme
+  :ensure t
+  :config
+  (load-theme 'zenburn 1))
+
 ;; Relative numbers
 (if (functionp 'display-line-numbers-mode)
-    (and (add-hook 'display-line-numbers-mode-hook
-                   (lambda () (setq display-line-numbers-type 'relative)))
-         (add-hook 'prog-mode-hook #'display-line-numbers-mode))
+    (progn (add-hook 'display-line-numbers-mode-hook
+                     (lambda () (setq display-line-numbers-type 'relative)))
+           (global-display-line-numbers-mode))
   (use-package nlinum-relative
     :ensure t
     :config
@@ -69,20 +76,22 @@
     (setq nlinum-relative-redisplay-delay 0)
     (add-hook 'prog-mode-hook #'nlinum-relative-mode)))
 
-;; Ido
-(ido-mode 1)
-(ido-everywhere 1)
-(setq ido-enable-flex-matching 1)
+;; Helm
+(use-package helm
+  :ensure t
+  :diminish helm-mode
+  :commands helm-mode
+  :init
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  :config
+  (helm-mode 1))
 
 ;; Evil mode
 (require 'init-evil)
 
 ;; Org mode
-(require 'latex-pretty-symbols)
-(add-hook 'org-mode-hook 'latex-unicode-simplified)
-
-;; Coq mode
-(load "~/.emacs.d/lisp/PG/generic/proof-site")
+(require 'init-org)
 
 ;;; Finalization
 ;; Custom set variables
