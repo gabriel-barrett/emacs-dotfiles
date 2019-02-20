@@ -56,14 +56,6 @@
    delete-old-versions 1
    version-control 1)
 
-;;; Packages
-
-;; Theme
-(use-package zenburn-theme
-  :ensure t
-  :config
-  (load-theme 'zenburn 1))
-
 ;; Relative numbers
 (if (functionp 'display-line-numbers-mode)
     (progn (add-hook 'display-line-numbers-mode-hook
@@ -76,16 +68,24 @@
     (setq nlinum-relative-redisplay-delay 0)
     (add-hook 'prog-mode-hook #'nlinum-relative-mode)))
 
-;; Helm
-(use-package helm
+;; Theme
+(use-package zenburn-theme
   :ensure t
-  :diminish helm-mode
-  :commands helm-mode
-  :init
-  (global-set-key (kbd "M-x") 'helm-M-x)
-  (global-set-key (kbd "C-x C-f") 'helm-find-files)
   :config
-  (helm-mode 1))
+  (load-theme 'zenburn 1))
+
+;;; Packages
+;; Ivy and counsel
+(use-package counsel
+  :ensure t
+  :bind (("M-x" . counsel-M-x)
+         ("C-x C-f" . counsel-find-file)))
+
+  (use-package ivy
+    :ensure t
+    :bind (("C-x C-b" . ivy-switch-buffer))
+    :config
+    (ivy-mode 1))
 
 ;; Evil mode
 (require 'init-evil)
