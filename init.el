@@ -18,6 +18,9 @@
   (cl-delete-duplicates file-name-handler-alist :test 'equal))
 (add-hook 'after-init-hook 'custom/reset-file-name-handler-alist)
 
+;; Load newer source as opposed to older bytecode
+(setq load-prefer-newer t)
+
 ;; Packaging config
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -75,23 +78,29 @@
   (load-theme 'zenburn 1))
 
 ;;; Packages
-;; Ivy and counsel
-(use-package counsel
-  :ensure t
-  :bind (("M-x" . counsel-M-x)
-         ("C-x C-f" . counsel-find-file)))
-
-  (use-package ivy
-    :ensure t
-    :bind (("C-x C-b" . ivy-switch-buffer))
-    :config
-    (ivy-mode 1))
-
 ;; Evil mode
 (require 'init-evil)
 
+;; Helm
+(use-package helm
+  :ensure t
+  :diminish helm-mode
+  :commands helm-mode
+  :config
+  (helm-mode 1)
+  (setq helm-buffers-fuzzy-matching t)
+  (setq helm-autoresize-mode t)
+  (setq helm-buffer-max-length 40)
+  (define-key helm-map (kbd "S-SPC")          'helm-toggle-visible-mark)
+  (define-key helm-find-files-map (kbd "C-k") 'helm-find-files-up-one-level)
+  (define-key helm-read-file-map (kbd "C-k")  'helm-find-files-up-one-level))
+
 ;; Org mode
 (require 'init-org)
+
+;; Agda mode
+(load-file (let ((coding-system-for-read 'utf-8))
+                (shell-command-to-string "agda-mode locate")))
 
 ;;; Finalization
 ;; Custom set variables
