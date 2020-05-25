@@ -9,10 +9,15 @@
 
   ;; Use Emacs state in these additional modes.
   (dolist (mode '(dired-mode
-                  eshell-mode
                   term-mode))
     (add-to-list 'evil-emacs-state-modes mode))
   (delete 'term-mode evil-insert-state-modes)
+
+  ;; Use normal state in these additional modes.
+  (dolist (mode '(shell-mode
+                  eshell-mode))
+    (add-to-list 'evil-normal-state-modes mode))
+  (delete 'shell-mode evil-insert-state-modes)
   (delete 'eshell-mode evil-insert-state-modes)
 
   ;; Global bindings.
@@ -27,25 +32,27 @@
   (evil-leader/set-leader ",")
   (evil-leader/set-key
     ","  'other-window
+    "TAB"  'other-window
     "."  'mode-line-other-buffer
     ":"  'eval-expression
     "b"  'helm-mini             ;; Switch to another buffer
-    "c"  'comment-dwim
     "d"  'kill-this-buffer
+    "k"  'kill-buffer
     "f"  'helm-find-files
-    ;"g"  'magit-status
+    "g"  'magit-status
     "l"  'whitespace-mode       ;; Show invisible characters
     "o"  'delete-other-windows  ;; C-w o
     "p"  'helm-show-kill-ring
     "R"  (lambda () (interactive) (font-lock-fontify-buffer) (redraw-display))
     "S"  'delete-trailing-whitespace
     "w"  'save-buffer
-    "x"  'helm-M-x
-    "y"  'yank-to-x-clipboard))
+    "x"  'helm-M-x))
 
 (use-package evil
   :ensure t
   :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
   (setq evil-want-C-u-scroll 1)
   :commands (evil-mode evil-define-key)
   :config
@@ -56,6 +63,11 @@
     (global-evil-leader-mode)
     (custom/config-evil-leader))
 
+  (use-package evil-magit
+    :ensure t
+    :config
+    (evil-magit-init))
+
   (use-package evil-surround
     :ensure t
     :config
@@ -63,5 +75,13 @@
 
   (custom/config-evil))
 
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (setq evil-collection-setup-minibuffer t)
+  (evil-collection-init))
+
 (evil-mode 1)
+
 (provide 'init-evil)

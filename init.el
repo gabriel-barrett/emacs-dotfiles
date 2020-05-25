@@ -1,5 +1,5 @@
 ;; Prerequisites
-(let ((minver "25.1"))
+(let ((minver "26.1"))
   (when (version< emacs-version minver)
     (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
 
@@ -21,12 +21,12 @@
 ;; Load newer source as opposed to older bytecode
 (setq load-prefer-newer t)
 
+;; Extra config files
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+
 ;; Packaging config
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-
-;; Extra config files
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
 ;; Use package
 (unless (package-installed-p 'use-package)
@@ -77,6 +77,9 @@
   :config
   (load-theme 'zenburn 1))
 
+;; Langs
+(require 'init-langs)
+
 ;;; Packages
 ;; Evil mode
 (require 'init-evil)
@@ -87,20 +90,28 @@
   :diminish helm-mode
   :commands helm-mode
   :config
-  (helm-mode 1)
   (setq helm-buffers-fuzzy-matching t)
   (setq helm-autoresize-mode t)
   (setq helm-buffer-max-length 40)
   (define-key helm-map (kbd "S-SPC")          'helm-toggle-visible-mark)
   (define-key helm-find-files-map (kbd "C-k") 'helm-find-files-up-one-level)
   (define-key helm-read-file-map (kbd "C-k")  'helm-find-files-up-one-level))
+(helm-mode 1)
 
 ;; Org mode
 (require 'init-org)
 
+;; Formality mode
+(require 'formality-mode)
+
 ;; Agda mode
 (load-file (let ((coding-system-for-read 'utf-8))
                 (shell-command-to-string "agda-mode locate")))
+
+;; Common Lisp
+(setq inferior-lisp-program "sbcl")
+
+(desktop-save-mode 1)
 
 ;;; Finalization
 ;; Custom set variables
