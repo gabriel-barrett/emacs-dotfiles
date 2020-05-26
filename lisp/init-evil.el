@@ -8,17 +8,20 @@
   (delete 'package-menu-mode evil-emacs-state-modes)
 
   ;; Use Emacs state in these additional modes.
-  (dolist (mode '(dired-mode
-                  term-mode))
+  (dolist (mode '(term-mode))
     (add-to-list 'evil-emacs-state-modes mode))
   (delete 'term-mode evil-insert-state-modes)
 
   ;; Use normal state in these additional modes.
   (dolist (mode '(shell-mode
-                  eshell-mode))
+                  eshell-mode
+                  slime-repl-mode
+                  geiser-repl-mode))
     (add-to-list 'evil-normal-state-modes mode))
   (delete 'shell-mode evil-insert-state-modes)
   (delete 'eshell-mode evil-insert-state-modes)
+  (delete 'slime-repl-mode evil-insert-state-modes)
+  (delete 'geiser-repl-mode evil-insert-state-modes)
 
   ;; Global bindings.
   (evil-define-key 'normal global-map (kbd ";")     'evil-ex)

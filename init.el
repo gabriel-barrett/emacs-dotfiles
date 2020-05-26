@@ -93,7 +93,7 @@
   (setq helm-buffers-fuzzy-matching t)
   (setq helm-autoresize-mode t)
   (setq helm-buffer-max-length 40)
-  (define-key helm-map (kbd "S-SPC")          'helm-toggle-visible-mark)
+  (global-set-key (kbd "M-x") 'helm-M-x)
   (define-key helm-find-files-map (kbd "C-k") 'helm-find-files-up-one-level)
   (define-key helm-read-file-map (kbd "C-k")  'helm-find-files-up-one-level))
 (helm-mode 1)
@@ -109,9 +109,8 @@
                 (shell-command-to-string "agda-mode locate")))
 
 ;; Common Lisp
+(require 'slime)
 (setq inferior-lisp-program "sbcl")
-
-(desktop-save-mode 1)
 
 ;;; Finalization
 ;; Custom set variables

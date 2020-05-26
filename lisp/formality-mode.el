@@ -16,23 +16,33 @@
 (add-to-list 'auto-mode-alist '("\\.fm\\'" . formality-mode))
 (add-to-list 'auto-mode-alist '("\\.fmc\\'" . formality-mode))
 
+(defface formality-number-face
+  '((t :foreground "purple"))
+  "Face for numbers."
+  :group 'formality)
+
+(defvar formality-number-face 'formality-number-face)
+
 (define-derived-mode formality-mode prog-mode "Formality"
   "Major mode for editing Formality programs."
   :group 'formality
 
-  (setq-local comment-start "// ")
+  (setq-local comment-start "//")
   (setq-local comment-end "")
-
-  (setq c-comment-prefix-regexp "//+\\|\\**"
-        c-paragraph-start "\\(@[[:alpha:]]+\\>\\|$\\)"
-        c-paragraph-separate "$"
-        c-block-comment-prefix "* "
-        c-line-comment-starter "//"
-        c-comment-start-regexp "/[*/]\\|\\s!"
-        comment-start-skip "\\(//+\\|/\\*+\\)\\s *")
-  (setq-local comment-line-break-function #'c-indent-new-comment-line)
-  (setq-local c-block-comment-start-regexp "/\\*")
-  (setq-local comment-multi-line t)
+  (font-lock-add-keywords 'nil '(("//.*" . font-lock-comment-face)
+                                 ("Nat\.[0-9]" . 'formality-number-face)
+                                 (":" . 'font-lock-variable-name-face)
+                                 (";" . 'font-lock-variable-name-face)
+                                 ("=" . 'font-lock-variable-name-face)
+                                 ("->" . 'font-lock-variable-name-face)
+                                 ("<" . 'font-lock-variable-name-face)
+                                 (">" . 'font-lock-variable-name-face)
+                                 ("," . 'font-lock-variable-name-face)
+                                 ("(" . 'font-lock-variable-name-face)
+                                 (")" . 'font-lock-variable-name-face)
+                                 ("|" . 'font-lock-variable-name-face)
+                                 ("let" . font-lock-keyword-face)
+                                 ("get" . font-lock-keyword-face)))
 
   (local-set-key (kbd "C-c C-l") (lambda () (interactive) (async-shell-command "/home/nixos/.npm-global/bin/fm")))
   )
