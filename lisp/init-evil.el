@@ -39,6 +39,7 @@
     "."  'mode-line-other-buffer
     ":"  'eval-expression
     "b"  'helm-mini             ;; Switch to another buffer
+    "c"  'comment-dwim
     "d"  'kill-this-buffer
     "k"  'kill-buffer
     "f"  'helm-find-files

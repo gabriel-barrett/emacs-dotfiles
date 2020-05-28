@@ -27,14 +27,16 @@
   "Major mode for editing Formality programs."
   :group 'formality
 
-  (setq-local comment-start "//")
+  (setq-local comment-start "// ")
   (setq-local comment-end "")
   (font-lock-add-keywords 'nil '(("Nat\\.[0-9]+" . 'formality-number-face)
-                                 ("let .+ =" . 'font-lock-function-name-face)
-                                 ("get .+ =" . 'font-lock-function-name-face)
+                                 ("let\\([^=]+?\\)=" . (1 font-lock-function-name-face))
+                                 ("def\\([^=]+?\\)=" . (1 font-lock-function-name-face))
+                                 ("get\\([^=]+?\\)=" . (1 font-lock-function-name-face))
                                  (":\\|;\\|=\\|->\\|<\\|>\\|,\\|(\\|)\\||" 0 'font-lock-variable-name-face t)
-                                 ("let" 0 font-lock-keyword-face t)
-                                 ("get" 0 font-lock-keyword-face t)
+                                 ("let" . font-lock-keyword-face)
+                                 ("def" . font-lock-keyword-face)
+                                 ("get" . font-lock-keyword-face)
                                  ("//.*" 0 font-lock-comment-face t)))
   (local-set-key (kbd "C-c C-l")
                  (lambda () (interactive) (async-shell-command "/home/nixos/.npm-global/bin/fm")))
