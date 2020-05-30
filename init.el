@@ -72,10 +72,11 @@
     (add-hook 'prog-mode-hook #'nlinum-relative-mode)))
 
 ;; Theme
-(use-package zenburn-theme
+(use-package doom-themes
   :ensure t
   :config
-  (load-theme 'zenburn 1))
+  (doom-themes-visual-bell-config)
+  (load-theme 'doom-one 1))
 
 ;; Langs
 (require 'init-langs)
@@ -109,8 +110,10 @@
                 (shell-command-to-string "agda-mode locate")))
 
 ;; Common Lisp
-(require 'slime)
-(setq inferior-lisp-program "sbcl")
+(use-package slime
+  :ensure t
+  :config
+  (setq inferior-lisp-program "sbcl"))
 
 ;;; Finalization
 ;; Custom set variables

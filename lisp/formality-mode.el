@@ -41,7 +41,7 @@
   (setq-local comment-start "// ")
   (setq-local comment-end "")
 
-  (font-lock-add-keywords 'nil '(("Nat\\.[0-9]+" . 'formality-number-face)
+  (font-lock-add-keywords 'nil '(("Nat\\.[0-9]+" . 'font-lock-constant-face)
                                  ("let\\([^=]+?\\)=" . (1 font-lock-function-name-face))
                                  ("def\\([^=]+?\\)=" . (1 font-lock-function-name-face))
                                  ("use\\([^=]+?\\)=" . (1 font-lock-function-name-face))
