@@ -24,6 +24,13 @@
 ;; Extra config files
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
+;; Set mail and user name
+(setq user-full-name "Gabriel Barreto")
+(setq user-mail-address "gabriel.aquino.barreto@gmail.com")
+;; (setq smtpmail-smtp-server "your.smtp.server.jp")
+;; (setq mail-user-agent 'message-user-agent)
+;; (setq message-send-mail-function 'message-smtpmail-send-it)
+
 ;; Packaging config
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -109,8 +116,10 @@
 (require 'formality-mode)
 
 ;; Agda mode
-(load-file (let ((coding-system-for-read 'utf-8))
-                (shell-command-to-string "agda-mode locate")))
+(let* ((coding-system-for-read 'utf-8)
+       (agda-mode-file (shell-command-to-string "command -v agda-mode >/dev/null && agda-mode locate")))
+  (unless (string-empty-p agda-mode-file)
+    (load-file agda-mode-file)))
 
 ;; Common Lisp
 (use-package slime

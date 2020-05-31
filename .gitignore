@@ -1,8 +1,9 @@
-elpa/
-eshell/
-.emacs.desktop
-.emacs.desktop.lock
 auto-save-list/
 backups/
-recentf
+elpa/
+eshell/
 transient/
+url/
+recentf
+.emacs.desktop
+.emacs.desktop.lock
