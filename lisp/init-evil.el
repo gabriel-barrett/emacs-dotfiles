@@ -28,18 +28,15 @@
     ","  'other-window
     "TAB"  'other-window
     "."  'mode-line-other-buffer
-    ":"  'eval-expression
-    "b"  'helm-mini             ;; Switch to another buffer
+    "b"  'helm-mini
     "c"  'comment-dwim
     "d"  'kill-this-buffer
+    "D"  'dired
     "k"  'kill-buffer
     "f"  'helm-find-files
     "g"  'magit-status
-    "l"  'whitespace-mode       ;; Show invisible characters
-    "o"  'delete-other-windows  ;; C-w o
+    "o"  'delete-other-windows
     "p"  'helm-show-kill-ring
-    "R"  (lambda () (interactive) (font-lock-fontify-buffer) (redraw-display))
-    "S"  'delete-trailing-whitespace
     "w"  'save-buffer
     "x"  'helm-M-x))
 

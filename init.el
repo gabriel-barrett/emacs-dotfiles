@@ -99,6 +99,9 @@
   (define-key helm-read-file-map (kbd "C-k")  'helm-find-files-up-one-level))
 (helm-mode 1)
 
+;; Dired
+(require 'init-dired)
+
 ;; Org mode
 (require 'init-org)
 
