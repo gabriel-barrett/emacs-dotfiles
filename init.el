@@ -88,9 +88,15 @@
 ;; Langs
 (require 'init-langs)
 
-;;; Packages
 ;; Evil mode
 (require 'init-evil)
+
+;; Shell
+(defun my-shell-mode-hook ()
+  (setq comint-input-ring-file-name "~/.zsh_history")
+  (setq comint-input-ring-separator "\n: \\([0-9]+\\):\\([0-9]+\\);") ; remove timestamp
+  (comint-read-input-ring t))
+(add-hook 'shell-mode-hook 'my-shell-mode-hook)
 
 ;; Helm
 (use-package helm
