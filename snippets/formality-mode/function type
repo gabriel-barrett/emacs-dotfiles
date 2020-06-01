@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: function type
+# key: ->
+# --
+(${1:x}: ${2:A}) -> ${3: B}$0

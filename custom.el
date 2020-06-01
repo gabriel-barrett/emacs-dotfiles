@@ -25,7 +25,7 @@
       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))))
  '(package-selected-packages
    (quote
-    (password-store doom-themes elpl idris-mode clojure-mode plisp-mode fsharp-mode fstar-mode tuareg sml-mode geiser racket-mode js-comint evil-magit ac-slime paredit slime nix-mode typescript-mode haskell-mode evil-surround evil-org proof-general evil-collection guix exwm evil-leader rust-mode use-package zenburn-theme magit latex-pretty-symbols helm evil))))
+    (yasnippet yasnippet-snippets password-store doom-themes elpl idris-mode clojure-mode plisp-mode fsharp-mode fstar-mode tuareg sml-mode geiser racket-mode js-comint evil-magit ac-slime paredit slime nix-mode typescript-mode haskell-mode evil-surround evil-org proof-general evil-collection guix exwm evil-leader rust-mode use-package zenburn-theme magit latex-pretty-symbols helm evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

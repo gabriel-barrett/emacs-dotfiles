@@ -112,6 +112,15 @@
   (define-key helm-read-file-map (kbd "C-k")  'helm-find-files-up-one-level))
 (helm-mode 1)
 
+;; Yasnippet
+(use-package yasnippet
+  :ensure t
+  :config
+  (use-package yasnippet-snippets
+    :ensure t)
+  (require 'yasnippet)
+  (yas-global-mode 1))
+
 ;; Dired
 (require 'init-dired)
 
