@@ -79,11 +79,15 @@
     (add-hook 'prog-mode-hook #'nlinum-relative-mode)))
 
 ;; Theme
-(use-package doom-themes
+(use-package spacemacs-theme
+  :defer t
+  :init
+  (load-theme 'spacemacs-dark 1))
+
+(use-package powerline
   :ensure t
   :config
-  (doom-themes-visual-bell-config)
-  (load-theme 'doom-one 1))
+  (powerline-default-theme))
 
 ;; Langs
 (require 'init-langs)
@@ -124,6 +128,15 @@
 ;; Dired
 (require 'init-dired)
 
+;; Mu4e
+(let ((mu4e-dir "/etc/profiles/per-user/nixos/share/emacs/site-lisp/mu4e"))
+  (if (file-exists-p (concat mu4e-dir "/mu4e.el"))
+      (progn
+        (add-to-list 'load-path mu4e-dir)
+        (require 'mu4e)
+        (require 'init-mu4e))
+    (message "Mu4e not found.")))
+
 ;; Org mode
 (require 'init-org)
 
@@ -131,9 +144,10 @@
 (require 'formality-mode)
 
 ;; Agda mode
-(let* ((coding-system-for-read 'utf-8)
-       (agda-mode-file (shell-command-to-string "command -v agda-mode >/dev/null && agda-mode locate")))
-  (unless (string-empty-p agda-mode-file)
+(let* ((agda-mode-file (shell-command-to-string "command -v agda-mode >/dev/null && agda-mode locate"))
+       (coding-system-for-read 'utf-8))
+  (if (string-empty-p agda-mode-file)
+      (message "Agda mode not found.")
     (load-file agda-mode-file)))
 
 ;; Common Lisp
