@@ -128,6 +128,9 @@
 ;; Dired
 (require 'init-dired)
 
+;; eww
+(require 'init-eww)
+
 ;; Mu4e
 (let ((mu4e-dir "/etc/profiles/per-user/nixos/share/emacs/site-lisp/mu4e"))
   (if (file-exists-p (concat mu4e-dir "/mu4e.el"))
@@ -151,10 +154,7 @@
     (load-file agda-mode-file)))
 
 ;; Common Lisp
-(use-package slime
-  :ensure t
-  :config
-  (setq inferior-lisp-program "sbcl"))
+(require 'init-cl)
 
 ;;; Finalization
 ;; Custom set variables

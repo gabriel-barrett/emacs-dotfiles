@@ -15,10 +15,10 @@
   (delete 'geiser-repl-mode evil-insert-state-modes)
 
   ;; Global bindings.
-  (evil-define-key 'normal global-map (kbd ":")     'evil-command-window-ex)
-  (evil-define-key 'normal global-map (kbd ";")     'async-shell-command)
-  (evil-define-key 'normal global-map (kbd ">")     'evil-repeat-find-char)
-  (evil-define-key 'normal global-map (kbd "<")     'evil-repeat-find-char-reverse)
+  (evil-define-key 'normal global-map (kbd ":") 'evil-command-window-ex)
+  (evil-define-key 'normal global-map (kbd ";") 'async-shell-command)
+  (evil-define-key 'normal global-map (kbd ">") 'evil-repeat-find-char)
+  (evil-define-key 'normal global-map (kbd "<") 'evil-repeat-find-char-reverse)
   )
 
 (defun custom/config-evil-leader ()
