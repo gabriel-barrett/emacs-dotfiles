@@ -31,6 +31,8 @@
 
 (defvar formality-number-face 'formality-number-face)
 
+(defvar formality-symbols (append ":|;(),<> " nil))
+
 (define-derived-mode formality-mode prog-mode "Formality"
   "Major mode for editing Formality programs."
   :group 'formality
@@ -40,8 +42,7 @@
   ; For comment-dwim
   (setq-local comment-start "// ")
   (setq-local comment-end "")
-
-  (font-lock-add-keywords 'nil '(("[0-9]+" . 'font-lock-constant-face)
+  (font-lock-add-keywords 'nil '(;("[0-9]+" . 'font-lock-constant-face)
                                  ("let \\([^=]+?\\)=" . (1 font-lock-function-name-face))
                                  ("def \\([^=]+?\\)=" . (1 font-lock-function-name-face))
                                  ("use \\([^=]+?\\)=" . (1 font-lock-function-name-face))
@@ -54,9 +55,28 @@
                                  ("case " . font-lock-keyword-face)
                                  ("\'.*\'" . font-lock-string-face)
                                  ))
+
+
   (local-set-key (kbd "C-c C-l")
-                 ;; (lambda () (interactive) (async-shell-command "~/.npm-global/bin/fm")))
-                 (lambda () (interactive) (async-shell-command "~/Job/Formality/javascript/bin/fm.js")))
+                 (lambda ()
+                   "Type checks fm files at current folder."
+                   (interactive)
+                   ;; (async-shell-command "~/.npm-global/bin/fm")))
+                   (async-shell-command "~/Job/Formality/javascript/bin/fm.js")))
+  (local-set-key (kbd "C-c C-c")
+                 (lambda (code)
+                 "Compiles a formality top-level term to JS."
+                 ;; There must be a more efficient way to get this
+                 (interactive
+                  (let ((term (seq-take-while
+                               (lambda (chr) (not (member chr formality-symbols)))
+                               (seq-drop-while
+                                (lambda (chr) (member chr formality-symbols))
+                                (thing-at-point 'line t)))))
+                    (list
+                     (read-string (format "word (%s): " term)
+                                  nil nil term))))
+                   (async-shell-command (concat "~/Job/Formality/javascript/bin/fmcjs.js " code))))
   )
 
 (provide 'formality-mode)
