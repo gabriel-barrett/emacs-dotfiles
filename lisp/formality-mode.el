@@ -62,7 +62,7 @@
                    "Type checks fm files at current folder."
                    (interactive)
                    ;; (async-shell-command "~/.npm-global/bin/fm")))
-                   (async-shell-command "~/Job/Formality/javascript/bin/fm.js")))
+                   (async-shell-command "~/.npm-global/bin/fm")))
   (local-set-key (kbd "C-c C-c")
                  (lambda (code)
                  "Compiles a formality top-level term to JS."

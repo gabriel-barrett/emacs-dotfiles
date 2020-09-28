@@ -95,6 +95,9 @@
 ;; Evil mode
 (require 'init-evil)
 
+;; Treemacs
+(require 'init-treemacs)
+
 ;; Shell
 (defun my-shell-mode-hook ()
   (setq comint-input-ring-file-name "~/.zsh_history")

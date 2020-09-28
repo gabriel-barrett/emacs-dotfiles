@@ -26,6 +26,8 @@
   (evil-leader/set-leader ",")
   (evil-leader/set-key
     ","  'other-window
+    "h"  'evil-window-left
+    "l"  'evil-window-right
     "TAB"  'other-window
     "."  'mode-line-other-buffer
     "b"  'helm-mini
