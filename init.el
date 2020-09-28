@@ -52,11 +52,19 @@
   (scroll-bar-mode 0))
 (setq visible-bell 1)
 (setq column-number-mode 1)
+(electric-pair-mode)
 
 ;; Misc
 (show-paren-mode 1)
 (setq-default indent-tabs-mode nil)
 (defalias 'yes-or-no-p 'y-or-n-p)
+
+;; Set transparency of emacs
+(defun transparency (value)
+  "Sets the transparency of the frame window. 0=transparent/100=opaque"
+  (interactive "nTransparency Value 0 - 100 opaque:")
+  (set-frame-parameter (selected-frame) 'alpha value))
+(transparency 95)
 
 ;; Basic settings for backup
 (defvar backup-dir "~/.emacs.d/backups/")
@@ -148,6 +156,9 @@
 
 ;; Formality mode
 (require 'formality-mode)
+(require 'formalitycore-mode)
+(setf formality-dir "~/Job/formality/javascript/bin/")
+(setf formalitycore-dir "~/Job/formality/javascript/bin/")
 
 ;; Agda mode
 (let* ((agda-mode-file (shell-command-to-string "command -v agda-mode >/dev/null && agda-mode locate"))

@@ -14,7 +14,6 @@
       (message "%s" version))))
 
 (add-to-list 'auto-mode-alist '("\\.fm\\'" . formality-mode))
-(add-to-list 'auto-mode-alist '("\\.fmc\\'" . formality-mode))
 
 (defvar formality-mode-syntax-table nil "Syntax table for `formality-mode'.")
 
@@ -23,6 +22,8 @@
         (modify-syntax-entry ?/ ". 12b" synTable)
         (modify-syntax-entry ?\n "> b" synTable)
         synTable))
+
+(defcustom formality-dir "~/.npm-global/lib/node_modules/formality-lang/bin/" "Directory in which Formality is installed.")
 
 (defface formality-number-face
   '((t :foreground "purple"))
@@ -48,35 +49,32 @@
                                  ("use \\([^=]+?\\)=" . (1 font-lock-function-name-face))
                                  ("get \\([^=]+?\\)=" . (1 font-lock-function-name-face))
                                  (":\\|;\\|=\\|->\\|<\\|>\\|,\\|(\\|)\\||" . 'font-lock-variable-name-face)
-                                 ("let " . font-lock-keyword-face)
-                                 ("def " . font-lock-keyword-face)
-                                 ("use " . font-lock-keyword-face)
-                                 ("get " . font-lock-keyword-face)
-                                 ("case " . font-lock-keyword-face)
+                                 ("\\<\\(if\\|then\\|else\\)\\>" . font-lock-keyword-face)
+                                 ("\\<\\(use\\|def\\|case\\|get\\|let\\)\\>" . font-lock-keyword-face)
                                  ("\'.*\'" . font-lock-string-face)
                                  ))
 
 
   (local-set-key (kbd "C-c C-l")
                  (lambda ()
-                   "Type checks fm files at current folder."
+                   "Type checks fm files at current directory."
                    (interactive)
-                   ;; (async-shell-command "~/.npm-global/bin/fm")))
-                   (async-shell-command "~/.npm-global/bin/fm")))
+                   (async-shell-command (concat formality-dir "fm.js " (file-relative-name (buffer-file-name))))))
   (local-set-key (kbd "C-c C-c")
                  (lambda (code)
-                 "Compiles a formality top-level term to JS."
-                 ;; There must be a more efficient way to get this
-                 (interactive
-                  (let ((term (seq-take-while
-                               (lambda (chr) (not (member chr formality-symbols)))
-                               (seq-drop-while
-                                (lambda (chr) (member chr formality-symbols))
-                                (thing-at-point 'line t)))))
-                    (list
-                     (read-string (format "word (%s): " term)
-                                  nil nil term))))
-                   (async-shell-command (concat "~/Job/Formality/javascript/bin/fmcjs.js " code))))
+                   "Compiles a formality top-level term to JS."
+                   ;; There must be a more efficient way to get this
+                   (interactive
+                    (let ((term (seq-take-while
+                                 (lambda (chr) (not (member chr formality-symbols)))
+                                 (seq-drop-while
+                                  (lambda (chr) (member chr formality-symbols))
+                                  (thing-at-point 'line t)))))
+                      (list
+                       (read-string (format "word (%s): " term)
+                                    nil nil term))))
+                   (async-shell-command
+                    (concat formality-dir "fmcjs.js " code " | tee >(node)"))))
   )
 
 (provide 'formality-mode)
