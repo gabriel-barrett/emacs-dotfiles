@@ -42,40 +42,20 @@
     "w"  'save-buffer
     "x"  'helm-M-x))
 
-(use-package evil
-  :ensure t
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  (setq evil-want-C-u-scroll 1)
-  :commands (evil-mode evil-define-key)
-  :config
 
-  (use-package evil-leader
-    :ensure t
-    :config
-    (global-evil-leader-mode)
-    (custom/config-evil-leader))
+(setq evil-want-C-u-scroll t)
+(setq evil-want-integration t)
+(setq evil-want-keybinding nil)
 
-  (use-package evil-magit
-    :ensure t
-    :config
-    (evil-magit-init))
+(evil-mode t)
+(custom/config-evil)
 
-  (use-package evil-surround
-    :ensure t
-    :config
-    (global-evil-surround-mode))
+(evil-collection-init)
+(setq evil-collection-setup-minibuffer t)
 
-  (custom/config-evil))
-
-(use-package evil-collection
-  :after evil
-  :ensure t
-  :config
-  (setq evil-collection-setup-minibuffer t)
-  (evil-collection-init))
-
-(evil-mode 1)
+(global-evil-leader-mode)
+(custom/config-evil-leader)
+(global-evil-surround-mode)
+(with-current-buffer "*Messages*" (evil-leader-mode))
 
 (provide 'init-evil)

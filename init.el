@@ -3,6 +3,8 @@
   (when (version< emacs-version minver)
     (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
 
+(require 'cl-lib)
+
 ;;; Speed up init.
 ;; Temporarily reduce garbage collection during startup. Inspect `gcs-done'.
 (defun custom/reset-gc-cons-threshold ()
@@ -27,20 +29,10 @@
 ;; Set mail and user name
 (setq user-full-name "Gabriel Barreto")
 (setq user-mail-address "gabriel.aquino.barreto@gmail.com")
-;; (setq smtpmail-smtp-server "your.smtp.server.jp")
-;; (setq mail-user-agent 'message-user-agent)
-;; (setq message-send-mail-function 'message-smtpmail-send-it)
 
 ;; Packaging config
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-
-;; Use package
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(eval-when-compile
-  (require 'use-package))
 
 ;; General settings
 (setq inhibit-splash-screen 1
@@ -75,36 +67,18 @@
    version-control 1)
 
 ;; Relative numbers
-(if (functionp 'display-line-numbers-mode)
-    (progn (add-hook 'display-line-numbers-mode-hook
-                     (lambda () (setq display-line-numbers-type 'relative)))
-           (global-display-line-numbers-mode))
-  (use-package nlinum-relative
-    :ensure t
-    :config
-    (nlinum-relative-setup-evil)
-    (setq nlinum-relative-redisplay-delay 0)
-    (add-hook 'prog-mode-hook #'nlinum-relative-mode)))
+(progn (add-hook 'display-line-numbers-mode-hook
+                 (lambda () (setq display-line-numbers-type 'relative)))
+       (global-display-line-numbers-mode))
 
 ;; Theme
-(use-package spacemacs-theme
-  :defer t
-  :init
-  (load-theme 'spacemacs-dark 1))
-
-(use-package powerline
-  :ensure t
-  :config
-  (powerline-default-theme))
-
-;; Langs
-(require 'init-langs)
+(load-theme 'spacemacs-dark 1)
 
 ;; Evil mode
 (require 'init-evil)
 
-;; Treemacs
-(require 'init-treemacs)
+;; Langs
+(require 'init-langs)
 
 ;; Shell
 (defun my-shell-mode-hook ()
@@ -114,51 +88,23 @@
 (add-hook 'shell-mode-hook 'my-shell-mode-hook)
 
 ;; Helm
-(use-package helm
-  :ensure t
-  :diminish helm-mode
-  :commands helm-mode
-  :config
-  (setq helm-buffers-fuzzy-matching t)
-  (setq helm-autoresize-mode t)
-  (setq helm-buffer-max-length 40)
-  (global-set-key (kbd "M-x") 'helm-M-x)
-  (define-key helm-find-files-map (kbd "C-k") 'helm-find-files-up-one-level)
-  (define-key helm-read-file-map (kbd "C-k")  'helm-find-files-up-one-level))
+(setq helm-buffers-fuzzy-matching t)
+(setq helm-autoresize-mode t)
+(setq helm-buffer-max-length 40)
 (helm-mode 1)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(define-key helm-find-files-map (kbd "C-k") 'helm-find-files-up-one-level)
+(define-key helm-read-file-map (kbd "C-k")  'helm-find-files-up-one-level)
 
 ;; Yasnippet
-(use-package yasnippet
-  :ensure t
-  :config
-  (use-package yasnippet-snippets
-    :ensure t)
-  (require 'yasnippet)
-  (yas-global-mode 1))
+(require 'yasnippet)
+(yas-global-mode 1)
 
 ;; Dired
 (require 'init-dired)
 
 ;; eww
 (require 'init-eww)
-
-;; Mu4e
-(let ((mu4e-dir "/etc/profiles/per-user/nixos/share/emacs/site-lisp/mu4e"))
-  (if (file-exists-p (concat mu4e-dir "/mu4e.el"))
-      (progn
-        (add-to-list 'load-path mu4e-dir)
-        (require 'mu4e)
-        (require 'init-mu4e))
-    (message "Mu4e not found.")))
-
-;; Org mode
-(require 'init-org)
-
-;; Formality mode
-(require 'formality-mode)
-(require 'formalitycore-mode)
-(setf formality-dir "~/Job/formality/javascript/bin/")
-(setf formalitycore-dir "~/Job/formality/javascript/bin/")
 
 ;; Agda mode
 (let* ((agda-mode-file (shell-command-to-string "command -v agda-mode >/dev/null && agda-mode locate"))
