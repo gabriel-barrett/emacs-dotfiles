@@ -56,15 +56,29 @@
   "Sets the transparency of the frame window. 0=transparent/100=opaque"
   (interactive "nTransparency Value 0 - 100 opaque:")
   (set-frame-parameter (selected-frame) 'alpha value))
+;; TODO add it to a hook so it works on emacsclient
 (transparency 95)
 
-;; Basic settings for backup
-(defvar backup-dir "~/.emacs.d/backups/")
+;; Which key delay
+(setq which-key-idle-delay 0.2)
+(which-key-mode 1)
+
+;; Basic settings for backup, auto-saves, etc
 (setq
-   backup-directory-alist `(("." . ,backup-dir))
+   backup-directory-alist `(("." . ,(expand-file-name "tmp/backups/" user-emacs-directory)))
    backup-by-copying 1
    delete-old-versions 1
    version-control 1)
+
+(make-directory
+ (expand-file-name "tmp/auto-saves/sessions" user-emacs-directory) t)
+(setq
+ auto-save-list-file-prefix
+ (expand-file-name "tmp/auto-saves/sessions/" user-emacs-directory)
+ auto-save-file-name-transforms
+ `((".*" ,(expand-file-name "tmp/auto-saves/" user-emacs-directory) t)))
+
+(setq undo-tree-auto-save-history nil)
 
 ;; Relative numbers
 (progn (add-hook 'display-line-numbers-mode-hook
@@ -75,7 +89,10 @@
 (load-theme 'spacemacs-dark 1)
 
 ;; Evil mode
-(require 'init-evil)
+(require 'evil-init)
+
+;; Langs
+(require 'langs-init)
 
 ;; Langs
 (require 'init-langs)
@@ -101,10 +118,10 @@
 (yas-global-mode 1)
 
 ;; Dired
-(require 'init-dired)
+(require 'dired-init)
 
 ;; eww
-(require 'init-eww)
+(require 'eww-init)
 
 ;; Agda mode
 (let* ((agda-mode-file (shell-command-to-string "command -v agda-mode >/dev/null && agda-mode locate"))
@@ -114,8 +131,13 @@
     (load-file agda-mode-file)))
 
 ;; Common Lisp
-(require 'init-cl)
+(require 'cl-init)
 
+;; Rust
+(add-hook 'rust-mode-hook (lambda () (cargo-minor-mode 1)))
+
+;; Lean4
+(require 'lean4-mode)
 ;;; Finalization
 ;; Custom set variables
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
