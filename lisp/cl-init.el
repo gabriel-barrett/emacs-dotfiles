@@ -5,4 +5,4 @@
 ;; Custom keybindings
 (evil-define-key 'normal slime-repl-mode-map (kbd "g r") 'slime-restart-inferior-lisp)
 
-(provide 'init-cl)
+(provide 'cl-init)

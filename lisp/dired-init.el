@@ -10,4 +10,4 @@
 
 (evil-define-key 'normal dired-mode-map (kbd "T") 'custom/dired-touch)
 
-(provide 'init-dired)
+(provide 'dired-init)

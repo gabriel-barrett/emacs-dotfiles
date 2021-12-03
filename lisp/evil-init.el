@@ -58,4 +58,4 @@
 (global-evil-surround-mode)
 (with-current-buffer "*Messages*" (evil-leader-mode))
 
-(provide 'init-evil)
+(provide 'evil-init)
