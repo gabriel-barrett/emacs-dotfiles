@@ -3,14 +3,9 @@
   (when (version< emacs-version minver)
     (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
 
-(require 'cl-lib)
-
 ;;; Speed up init.
-;; Temporarily reduce garbage collection during startup. Inspect `gcs-done'.
-(defun custom/reset-gc-cons-threshold ()
-  (setq gc-cons-threshold (car (get 'gc-cons-threshold 'standard-value))))
-(setq gc-cons-threshold (* 64 1024 1024))
-(add-hook 'after-init-hook 'custom/reset-gc-cons-threshold)
+;; Increase garbage collector threshold. Inspect `gcs-done'.
+(setq gc-cons-threshold (* 16 1024 1024))
 ;; Temporarily disable the file name handler.
 (setq default-file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
@@ -19,6 +14,16 @@
         (append default-file-name-handler-alist file-name-handler-alist))
   (cl-delete-duplicates file-name-handler-alist :test 'equal))
 (add-hook 'after-init-hook 'custom/reset-file-name-handler-alist)
+;; Measure the init time
+(defun custom/display-startup-time ()
+  (message "Emacs loaded in %s with %d garbage collections."
+           (format "%.2f seconds"
+                   (float-time
+                   (time-subtract after-init-time before-init-time)))
+           gcs-done))
+(add-hook 'emacs-startup-hook #'custom/display-startup-time)
+
+(require 'cl-lib)
 
 ;; Load newer source as opposed to older bytecode
 (setq load-prefer-newer t)
@@ -93,9 +98,6 @@
 
 ;; Langs
 (require 'langs-init)
-
-;; Langs
-(require 'init-langs)
 
 ;; Shell
 (defun my-shell-mode-hook ()
