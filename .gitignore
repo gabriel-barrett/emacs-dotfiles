@@ -1,5 +1,5 @@
 auto-save-list/
-backups/
+tmp/
 elpa/
 eshell/
 transient/

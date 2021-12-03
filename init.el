@@ -23,8 +23,6 @@
            gcs-done))
 (add-hook 'emacs-startup-hook #'custom/display-startup-time)
 
-(require 'cl-lib)
-
 ;; Load newer source as opposed to older bytecode
 (setq load-prefer-newer t)
 
@@ -94,7 +92,10 @@
 (load-theme 'spacemacs-dark 1)
 
 ;; Evil mode
-(require 'evil-init)
+(setq evil-want-keybinding nil
+      evil-want-integration t
+      evil-want-C-u-scroll t)
+(when (require 'evil nil t) (require 'evil-init))
 
 ;; Langs
 (require 'langs-init)
@@ -120,26 +121,26 @@
 (yas-global-mode 1)
 
 ;; Dired
-(require 'dired-init)
+(with-eval-after-load 'dired (require 'dired-init))
 
 ;; eww
-(require 'eww-init)
+(with-eval-after-load 'eww (require 'eww-init))
 
 ;; Agda mode
 (let* ((agda-mode-file (shell-command-to-string "command -v agda-mode >/dev/null && agda-mode locate"))
        (coding-system-for-read 'utf-8))
   (if (string-empty-p agda-mode-file)
       (message "Agda mode not found.")
-    (load-file agda-mode-file)))
+    (with-eval-after-load 'agda2-mode (load-file agda-mode-file))))
 
 ;; Common Lisp
-(require 'cl-init)
+(with-eval-after-load 'common-lisp-mode (require 'cl-init))
 
 ;; Rust
 (add-hook 'rust-mode-hook (lambda () (cargo-minor-mode 1)))
 
 ;; Lean4
-(require 'lean4-mode)
+(with-eval-after-load 'lean4-mode (require 'lean4-mode))
 ;;; Finalization
 ;; Custom set variables
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))

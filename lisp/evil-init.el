@@ -43,10 +43,6 @@
     "x"  'helm-M-x))
 
 
-(setq evil-want-C-u-scroll t)
-(setq evil-want-integration t)
-(setq evil-want-keybinding nil)
-
 (evil-mode t)
 (custom/config-evil)
 
