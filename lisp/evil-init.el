@@ -26,6 +26,7 @@
   (evil-leader/set-leader ",")
   (evil-leader/set-key
     ","  'other-window
+    "r"  'revert-buffer
     "h"  'evil-window-left
     "l"  'evil-window-right
     "TAB"  'other-window

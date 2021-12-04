@@ -1,19 +1,3 @@
-;; Prerequisites
-(let ((minver "26.1"))
-  (when (version< emacs-version minver)
-    (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
-
-;;; Speed up init.
-;; Increase garbage collector threshold. Inspect `gcs-done'.
-(setq gc-cons-threshold (* 16 1024 1024))
-;; Temporarily disable the file name handler.
-(setq default-file-name-handler-alist file-name-handler-alist)
-(setq file-name-handler-alist nil)
-(defun custom/reset-file-name-handler-alist ()
-  (setq file-name-handler-alist
-        (append default-file-name-handler-alist file-name-handler-alist))
-  (cl-delete-duplicates file-name-handler-alist :test 'equal))
-(add-hook 'after-init-hook 'custom/reset-file-name-handler-alist)
 ;; Measure the init time
 (defun custom/display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
@@ -23,8 +7,9 @@
            gcs-done))
 (add-hook 'emacs-startup-hook #'custom/display-startup-time)
 
-;; Load newer source as opposed to older bytecode
-(setq load-prefer-newer t)
+;; Custom set variables
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file 'noerror)
 
 ;; Extra config files
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
@@ -34,7 +19,6 @@
 (setq user-mail-address "gabriel.aquino.barreto@gmail.com")
 
 ;; Packaging config
-(package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 
 ;; General settings
@@ -43,8 +27,7 @@
       inhibit-startup-echo-area-message 1)
 (menu-bar-mode 0)
 (tool-bar-mode 0)
-(when (boundp 'scroll-bar-mode)
-  (scroll-bar-mode 0))
+(scroll-bar-mode 0)
 (setq visible-bell 1)
 (setq column-number-mode 1)
 (electric-pair-mode)
@@ -126,13 +109,6 @@
 ;; eww
 (with-eval-after-load 'eww (require 'eww-init))
 
-;; Agda mode
-(let* ((agda-mode-file (shell-command-to-string "command -v agda-mode >/dev/null && agda-mode locate"))
-       (coding-system-for-read 'utf-8))
-  (if (string-empty-p agda-mode-file)
-      (message "Agda mode not found.")
-    (with-eval-after-load 'agda2-mode (load-file agda-mode-file))))
-
 ;; Common Lisp
 (with-eval-after-load 'common-lisp-mode (require 'cl-init))
 
@@ -140,10 +116,9 @@
 (add-hook 'rust-mode-hook (lambda () (cargo-minor-mode 1)))
 
 ;; Lean4
-(with-eval-after-load 'lean4-mode (require 'lean4-mode))
-;;; Finalization
-;; Custom set variables
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file 'noerror)
+(add-to-list 'auto-mode-alist
+             '("\\.lean$" . (lambda ()
+                              (require 'lean4-mode)
+                              (lean4-mode))))
 
 (provide 'init)
