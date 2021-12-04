@@ -42,8 +42,7 @@
   "Sets the transparency of the frame window. 0=transparent/100=opaque"
   (interactive "nTransparency Value 0 - 100 opaque:")
   (set-frame-parameter (selected-frame) 'alpha value))
-;; TODO add it to a hook so it works on emacsclient
-(transparency 95)
+(add-to-list 'default-frame-alist '(alpha . (95 . 75)))
 
 ;; Which key delay
 (setq which-key-idle-delay 0.2)
