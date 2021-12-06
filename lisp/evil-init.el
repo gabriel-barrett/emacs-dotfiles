@@ -29,19 +29,18 @@
     "r"  'revert-buffer
     "h"  'evil-window-left
     "l"  'evil-window-right
-    "TAB"  'other-window
     "."  'mode-line-other-buffer
-    "b"  'helm-mini
+    "b"  'switch-to-buffer
     "c"  'comment-dwim
     "d"  'kill-this-buffer
     "D"  'dired
     "k"  'kill-buffer
-    "f"  'helm-find-files
+    "f"  'find-file
     "g"  'magit-status
     "o"  'delete-other-windows
-    "p"  'helm-show-kill-ring
     "w"  'save-buffer
-    "x"  'helm-M-x))
+    "x"  'execute-extended-command
+    ))
 
 
 (evil-mode t)

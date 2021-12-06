@@ -24,17 +24,16 @@
 ;; General settings
 (setq inhibit-splash-screen 1
       inhibit-startup-message 1
-      inhibit-startup-echo-area-message 1)
+      inhibit-startup-echo-area-message 1
+      visible-bell 1
+      column-number-mode 1)
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
-(setq visible-bell 1)
-(setq column-number-mode 1)
 (electric-pair-mode)
 
 ;; Misc
 (show-paren-mode 1)
-(setq-default indent-tabs-mode nil)
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Set transparency of emacs
@@ -66,9 +65,8 @@
 (setq undo-tree-auto-save-history nil)
 
 ;; Relative numbers
-(progn (add-hook 'display-line-numbers-mode-hook
-                 (lambda () (setq display-line-numbers-type 'relative)))
-       (global-display-line-numbers-mode))
+(setq display-line-numbers-type 'relative)
+(global-display-line-numbers-mode)
 
 ;; Theme
 (load-theme 'spacemacs-dark 1)
@@ -82,25 +80,10 @@
 ;; Langs
 (require 'langs-init)
 
-;; Shell
-(defun my-shell-mode-hook ()
-  (setq comint-input-ring-file-name "~/.zsh_history")
-  (setq comint-input-ring-separator "\n: \\([0-9]+\\):\\([0-9]+\\);") ; remove timestamp
-  (comint-read-input-ring t))
-(add-hook 'shell-mode-hook 'my-shell-mode-hook)
-
-;; Helm
-(setq helm-buffers-fuzzy-matching t)
-(setq helm-autoresize-mode t)
-(setq helm-buffer-max-length 40)
-(helm-mode 1)
-(global-set-key (kbd "M-x") 'helm-M-x)
-(define-key helm-find-files-map (kbd "C-k") 'helm-find-files-up-one-level)
-(define-key helm-read-file-map (kbd "C-k")  'helm-find-files-up-one-level)
-
-;; Yasnippet
-(require 'yasnippet)
-(yas-global-mode 1)
+;; Icomplete
+(icomplete-mode 1)
+(fido-mode 1)
+(icomplete-vertical-mode 1)
 
 ;; Dired
 (with-eval-after-load 'dired (require 'dired-init))
