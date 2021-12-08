@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (defun custom/config-evil ()
   "Configure evil mode."
 

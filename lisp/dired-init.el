@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (defun custom/dired-touch ()
   "Create a new, empty file."
   (interactive)

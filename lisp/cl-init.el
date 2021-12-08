@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (let ((quicklisp "~/.quicklisp/slime-helper.el"))
   (when (file-exists-p quicklisp)
     (load (expand-file-name quicklisp))))
