@@ -37,6 +37,7 @@
 ;; Misc
 (show-paren-mode 1)
 (defalias 'yes-or-no-p 'y-or-n-p)
+(setq enable-local-variables :safe)
 
 ;; Transparency function
 (defun custom/transparency (value)
@@ -72,9 +73,16 @@
 ;; Theme
 (load-theme 'spacemacs-dark 1)
 
+;; TRAMP
+(require 'tramp)
+(setq tramp-remote-path
+      (append tramp-remote-path
+              '(tramp-own-remote-path)))
+
 ;; Evil mode
 (setq evil-want-keybinding nil
       evil-want-integration t
+      evil-respect-visual-line-mode t
       evil-want-C-u-scroll t)
 (when (require 'evil nil t) (require 'evil-init))
 
@@ -82,9 +90,7 @@
 (require 'langs-init)
 
 ;; Icomplete
-(icomplete-mode 1)
-(fido-mode 1)
-(icomplete-vertical-mode 1)
+(fido-vertical-mode 1)
 
 ;; Dired
 (with-eval-after-load 'dired (require 'dired-init))
