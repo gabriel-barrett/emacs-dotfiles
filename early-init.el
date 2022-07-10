@@ -19,4 +19,7 @@
 ;; Load newer source as opposed to older bytecode
 (setq load-prefer-newer t)
 
+;; Fullscreen
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
 (setq package-quickstart t)

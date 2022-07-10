@@ -29,7 +29,6 @@
       inhibit-startup-echo-area-message 1
       visible-bell 1
       column-number-mode 1)
-(menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
 (electric-pair-mode)
@@ -38,6 +37,7 @@
 (show-paren-mode 1)
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq enable-local-variables :safe)
+(setenv "PAGER" "cat")
 
 ;; Transparency function
 (defun custom/transparency (value)
@@ -45,7 +45,8 @@
   (interactive "nTransparency Value 0 - 100 opaque:")
   (set-frame-parameter (selected-frame) 'alpha value))
 
-;; Which key delay
+;; Which key
+(require 'which-key)
 (setq which-key-idle-delay 0.2)
 (which-key-mode 1)
 
@@ -103,6 +104,30 @@
 
 ;; Rust
 (add-hook 'rust-mode-hook (lambda () (cargo-minor-mode 1)))
+
+;; Magit
+(require 'magit)
+
+;; Doom modeline
+(doom-modeline-mode t)
+(setq doom-modeline-icon nil)
+
+;; Popper mode
+(require 'popper)
+(setq popper-reference-buffers
+      '("\\*Messages\\*"
+        "Output\\*$"
+        "\\*Async Shell Command\\*"
+        ;; help-mode
+        compilation-mode))
+(global-set-key (kbd "C-`") 'popper-toggle-latest)  
+(global-set-key (kbd "M-`") 'popper-cycle)
+(global-set-key (kbd "C-M-`") 'popper-toggle-type)
+(popper-mode +1)
+
+;; For echo-area hints
+(require 'popper-echo)
+(popper-echo-mode +1)
 
 ;; Lean4
 (add-to-list 'auto-mode-alist
