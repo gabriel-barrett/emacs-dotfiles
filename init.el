@@ -78,7 +78,7 @@
 (require 'tramp)
 (setq tramp-remote-path
       (append tramp-remote-path
-              '(tramp-own-remote-path)))
+	      '(tramp-own-remote-path)))
 
 ;; Evil mode
 (setq evil-want-keybinding nil
@@ -112,18 +112,11 @@
 (doom-modeline-mode t)
 (setq doom-modeline-icon nil)
 
+;; Term mode
+(with-eval-after-load 'term (term-set-escape-char ?\C-x))
+
 ;; Popper mode
-(require 'popper)
-(setq popper-reference-buffers
-      '("\\*Messages\\*"
-        "Output\\*$"
-        "\\*Async Shell Command\\*"
-        ;; help-mode
-        compilation-mode))
-(global-set-key (kbd "C-`") 'popper-toggle-latest)  
-(global-set-key (kbd "M-`") 'popper-cycle)
-(global-set-key (kbd "C-M-`") 'popper-toggle-type)
-(popper-mode +1)
+(require 'popper-init)
 
 ;; For echo-area hints
 (require 'popper-echo)
