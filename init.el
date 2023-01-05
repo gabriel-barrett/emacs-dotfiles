@@ -31,9 +31,9 @@
       column-number-mode 1)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
-(electric-pair-mode)
 
 ;; Misc
+(electric-pair-mode)
 (show-paren-mode 1)
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq enable-local-variables :safe)
@@ -44,11 +44,6 @@
   "Sets the transparency of the frame window. 0=transparent/100=opaque"
   (interactive "nTransparency Value 0 - 100 opaque:")
   (set-frame-parameter (selected-frame) 'alpha value))
-
-;; Which key
-(require 'which-key)
-(setq which-key-idle-delay 0.2)
-(which-key-mode 1)
 
 ;; Basic settings for backup, auto-saves, etc
 (setq
@@ -71,8 +66,15 @@
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
 
+;; Icomplete
+(fido-vertical-mode 1)
+
 ;; Theme
 (load-theme 'spacemacs-dark 1)
+
+;; Doom modeline
+(doom-modeline-mode t)
+(setq doom-modeline-icon nil)
 
 ;; TRAMP
 (require 'tramp)
@@ -90,27 +92,14 @@
 ;; Langs
 (require 'langs-init)
 
-;; Icomplete
-(fido-vertical-mode 1)
-
 ;; Dired
 (with-eval-after-load 'dired (require 'dired-init))
 
 ;; eww
 (with-eval-after-load 'eww (require 'eww-init))
 
-;; Common Lisp
-(with-eval-after-load 'common-lisp-mode (require 'cl-init))
-
-;; Rust
-(add-hook 'rust-mode-hook (lambda () (cargo-minor-mode 1)))
-
 ;; Magit
 (require 'magit)
-
-;; Doom modeline
-(doom-modeline-mode t)
-(setq doom-modeline-icon nil)
 
 ;; Term mode
 (with-eval-after-load 'term (term-set-escape-char ?\C-x))
@@ -118,14 +107,12 @@
 ;; Popper mode
 (require 'popper-init)
 
-;; For echo-area hints
-(require 'popper-echo)
-(popper-echo-mode +1)
+;; Flycheck mode
+(require 'flycheck-init)
 
-;; Lean4
-(add-to-list 'auto-mode-alist
-	     '("\\.lean$" . (lambda ()
-			      (require 'lean4-mode)
-			      (lean4-mode))))
+;; Which key
+(require 'which-key)
+(setq which-key-idle-delay 0.2)
+(which-key-mode 1)
 
 (provide 'init)

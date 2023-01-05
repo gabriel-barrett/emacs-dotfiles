@@ -28,7 +28,6 @@
       '("\\*Messages\\*"
 	"Output\\*$"
 	"\\*Async Shell Command\\*"
-	;; help-mode
 	compilation-mode))
 ;; Match eshell, shell, term and/or vterm buffers
 (setq popper-reference-buffers
@@ -42,5 +41,9 @@
 (global-set-key (kbd "M-`") 'popper-cycle)
 (global-set-key (kbd "C-M-`") 'popper-toggle-type)
 (popper-mode +1)
+
+;; For echo-area hints
+(require 'popper-echo)
+(popper-echo-mode +1)
 
 (provide 'popper-init)
