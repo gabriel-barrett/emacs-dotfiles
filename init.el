@@ -8,6 +8,15 @@
 	   gcs-done))
 (add-hook 'emacs-startup-hook #'custom/display-startup-time)
 
+;; Custom function to add paths to Emacs
+(defun custom/add-to-path-if-dir (path)
+  "Add PATH to the `exec-path` and `PATH` environment variable if it is a valid directory."
+  (let ((expanded-path (substitute-in-file-name path)))
+    (when (file-directory-p expanded-path)
+      (unless (member expanded-path exec-path)
+        (setq exec-path (append exec-path (list expanded-path)))
+        (setenv "PATH" (concat (getenv "PATH") path-separator expanded-path))))))
+
 ;; Custom set variables
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
@@ -18,10 +27,6 @@
 ;; Set mail and user name
 (setq user-full-name "Gabriel Barreto")
 (setq user-mail-address "gabriel.aquino.barreto@gmail.com")
-
-;; Packaging config
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 
 ;; General settings
 (setq inhibit-splash-screen 1
@@ -37,7 +42,6 @@
 (show-paren-mode 1)
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq enable-local-variables :safe)
-(setenv "PAGER" "cat")
 
 ;; Transparency function
 (defun custom/transparency (value)
@@ -69,12 +73,19 @@
 ;; Icomplete
 (fido-vertical-mode 1)
 
-;; Theme
-(load-theme 'spacemacs-dark 1)
-
-;; Doom modeline
-(doom-modeline-mode t)
-(setq doom-modeline-icon nil)
+;; Package manager and third party packages (currently straight.el)
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
 ;; TRAMP
 (require 'tramp)
@@ -82,7 +93,11 @@
       (append tramp-remote-path
 	      '(tramp-own-remote-path)))
 
+;; Nix
+(custom/add-to-path-if-dir "$HOME/.nix-profile/bin")
+
 ;; Evil mode
+(straight-use-package 'evil)
 (setq evil-want-keybinding nil
       evil-want-integration t
       evil-respect-visual-line-mode t
@@ -99,20 +114,37 @@
 (with-eval-after-load 'eww (require 'eww-init))
 
 ;; Magit
+(straight-use-package 'magit)
 (require 'magit)
 
 ;; Term mode
-(with-eval-after-load 'term (term-set-escape-char ?\C-x))
+(with-eval-after-load 'term
+  (term-set-escape-char ?\C-x)
+  (define-key term-raw-map (kbd "C-x C-y") 'term-paste))
 
 ;; Popper mode
+(straight-use-package 'popper)
 (require 'popper-init)
 
 ;; Flycheck mode
+(straight-use-package 'flycheck)
 (require 'flycheck-init)
 
 ;; Which key
+(straight-use-package 'which-key)
 (require 'which-key)
 (setq which-key-idle-delay 0.2)
 (which-key-mode 1)
+
+;; Theme
+(straight-use-package 'spacemacs-theme)
+(load-theme 'spacemacs-dark 1)
+
+;; Emacs icons
+(straight-use-package 'all-the-icons)
+
+;; Doom modeline
+(straight-use-package 'doom-modeline)
+(doom-modeline-mode t)
 
 (provide 'init)

@@ -1,16 +1,4 @@
 ;; -*- lexical-binding: t -*-
-(defun evil-command-window-insert-commands--fix (old-function hist)
-  "Fixes 'evil-command-window-ex empty history error"
-  (let ((inhibit-modification-hooks t))
-    (mapc #'(lambda (cmd) (insert cmd) (newline)) (reverse hist)))
-  (let ((prefix (propertize evil-command-window-cmd-key
-			    'font-lock-face 'minibuffer-prompt)))
-    (set-text-properties (point-min) (point-max) (list 'line-prefix prefix)))
-  (goto-char (point-max))
-  (when (and (bolp) (not (bobp))) (backward-char))
-  (evil-adjust-cursor))
-(advice-add 'evil-command-window-insert-commands :around 'evil-command-window-insert-commands--fix)
-
 (defun custom/config-evil ()
   "Configure evil mode."
 
@@ -62,15 +50,18 @@
 (evil-mode t)
 (custom/config-evil)
 
+(straight-use-package 'evil-collection)
 (require 'evil-collection)
 (evil-collection-init (remove '(term term ansi-term multi-term) evil-collection-mode-list))
 (setq evil-collection-setup-minibuffer t)
 
+(straight-use-package 'evil-leader)
 (require 'evil-leader)
 (global-evil-leader-mode)
 (custom/config-evil-leader)
 (with-current-buffer "*Messages*" (evil-leader-mode))
 
+(straight-use-package 'evil-surround)
 (require 'evil-surround)
 (global-evil-surround-mode)
 

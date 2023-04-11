@@ -13,6 +13,7 @@
   (kbd "T") 'custom/dired-touch
   (kbd ";") 'with-editor-async-shell-command)
 
+(straight-use-package 'openwith)
 (require 'openwith)
 
 (put 'dired-find-alternate-file 'disabled nil)
