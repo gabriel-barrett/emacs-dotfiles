@@ -7,6 +7,8 @@
       (lambda ()
 	(custom/shell-command-to-string-on-success "gpg -d $HOME/chatgpt.api.gpg" t)))
 
+(defvar custom/gptel--system-message
+  "You are a large language model living in Emacs and a helpful assistant. Answer the questions thoroughly")
 (defun custom/gptel--create-prompt-from-string (input-string)
   "Return a full conversation prompt from INPUT-STRING.
 
@@ -28,7 +30,9 @@ assistant messages."
                                                      (prop-match-end prop))
                      "[*# \t\n\r]+"))
               prompts))
-      prompts)))
+      (cons (list :role "system"
+		  :content custom/gptel--system-message)
+	    prompts))))
 
 (defun custom/gptel-send ()
   "Submit a message to ChatGPT and display the output in a separate buffer."
