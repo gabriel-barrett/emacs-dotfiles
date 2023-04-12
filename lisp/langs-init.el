@@ -1,13 +1,5 @@
 ;; -*- lexical-binding: t -*-
 
-;; Copilot
-(straight-use-package '(copilot
-			:type git
-			:host github
-			:repo "zerolfx/copilot.el"
-			:files ("dist" "*.el")))
-; you can utilize :map :hook and :config to customize copilot
-
 ;; Rust
 (custom/add-to-path-if-dir "$HOME/.cargo/bin")
 (straight-use-package 'rust-mode)

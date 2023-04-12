@@ -17,6 +17,20 @@
         (setq exec-path (append exec-path (list expanded-path)))
         (setenv "PATH" (concat (getenv "PATH") path-separator expanded-path))))))
 
+(defun custom/shell-command-to-string-on-success (command &optional ignore-stderr)
+  "Call shell COMMAND and return its output as a string if the command succeeds.
+Signal an error if the command exits with a non-zero status. If IGNORE-STDERR is non-nil,
+discard any error output from the command."
+  (let ((full-command (if ignore-stderr
+                          (concat command " 2>/dev/null")
+                        command)))
+    (with-temp-buffer
+      (let ((exit-status (call-process-shell-command full-command nil t)))
+        (if (eq exit-status 0)
+            (buffer-string)
+          (error "Command '%s' failed with exit status %d: %s"
+                 command exit-status (buffer-string)))))))
+
 ;; Custom set variables
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
@@ -135,6 +149,9 @@
 (require 'which-key)
 (setq which-key-idle-delay 0.2)
 (which-key-mode 1)
+
+;; Artificial intelligence
+(require 'ai-init)
 
 ;; Theme
 (straight-use-package 'spacemacs-theme)
