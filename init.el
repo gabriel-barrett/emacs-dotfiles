@@ -88,20 +88,6 @@ discard any error output from the command."
 ;; Icomplete
 (fido-vertical-mode 1)
 
-;; Package manager and third party packages (currently straight.el)
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 6))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-
 ;; TRAMP
 (require 'tramp)
 (setq tramp-remote-path
@@ -112,7 +98,6 @@ discard any error output from the command."
 (custom/add-to-path-if-dir "$HOME/.nix-profile/bin")
 
 ;; Evil mode
-(straight-use-package 'evil)
 (setq evil-want-keybinding nil
       evil-want-integration t
       evil-respect-visual-line-mode t
@@ -129,7 +114,6 @@ discard any error output from the command."
 (with-eval-after-load 'eww (require 'eww-init))
 
 ;; Magit
-(straight-use-package 'magit)
 (require 'magit)
 
 ;; Term mode
@@ -138,15 +122,12 @@ discard any error output from the command."
   (define-key term-raw-map (kbd "C-x C-y") 'term-paste))
 
 ;; Popper mode
-(straight-use-package 'popper)
 (require 'popper-init)
 
 ;; Flycheck mode
-(straight-use-package 'flycheck)
 (require 'flycheck-init)
 
 ;; Which key
-(straight-use-package 'which-key)
 (require 'which-key)
 (setq which-key-idle-delay 0.2)
 (which-key-mode 1)
@@ -155,14 +136,11 @@ discard any error output from the command."
 (require 'ai-init)
 
 ;; Theme
-(straight-use-package 'spacemacs-theme)
 (load-theme 'spacemacs-dark 1)
 
 ;; Emacs icons
-(straight-use-package 'all-the-icons)
 
 ;; Doom modeline
-(straight-use-package 'doom-modeline)
 (doom-modeline-mode t)
 
 (provide 'init)

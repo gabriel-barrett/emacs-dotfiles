@@ -50,18 +50,15 @@
 (evil-mode t)
 (custom/config-evil)
 
-(straight-use-package 'evil-collection)
 (require 'evil-collection)
 (evil-collection-init (remove '(term term ansi-term multi-term) evil-collection-mode-list))
 (setq evil-collection-setup-minibuffer t)
 
-(straight-use-package 'evil-leader)
 (require 'evil-leader)
 (global-evil-leader-mode)
 (custom/config-evil-leader)
 (with-current-buffer "*Messages*" (evil-leader-mode))
 
-(straight-use-package 'evil-surround)
 (require 'evil-surround)
 (global-evil-surround-mode)
 

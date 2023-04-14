@@ -1,7 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
 ;; ChatGPT
-(straight-use-package 'gptel)
 (require 'gptel)
 (setq gptel-api-key
       (lambda ()
@@ -56,11 +55,5 @@ assistant messages."
   "t"  'custom/gptel-send)
 
 ;; Copilot
-(straight-use-package '(copilot
-			:type git
-			:host github
-			:repo "zerolfx/copilot.el"
-			:files ("dist" "*.el")))
-; you can utilize :map :hook and :config to customize copilot
 
 (provide 'ai-init)
