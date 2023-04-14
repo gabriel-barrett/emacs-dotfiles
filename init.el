@@ -56,6 +56,7 @@ discard any error output from the command."
 (show-paren-mode 1)
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq enable-local-variables :safe)
+(setq-default indent-tabs-mode nil)
 
 ;; Transparency function
 (defun custom/transparency (value)
