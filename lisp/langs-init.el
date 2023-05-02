@@ -3,8 +3,8 @@
 ;; Rust
 (custom/add-to-path-if-dir "$HOME/.cargo/bin")
 (straight-use-package 'rust-mode)
+(straight-use-package 'cargo-mode)
 (add-hook 'rust-mode-hook (lambda () (cargo-minor-mode 1)))
-(setq-default rust-indent-offset 2)
 
 ;; Common Lisp
 (straight-use-package 'slime)
