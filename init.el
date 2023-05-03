@@ -2,10 +2,10 @@
 ;; Measure the init time
 (defun custom/display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
-	   (format "%.2f seconds"
-		   (float-time
-		   (time-subtract after-init-time before-init-time)))
-	   gcs-done))
+           (format "%.2f seconds"
+                   (float-time
+                   (time-subtract after-init-time before-init-time)))
+           gcs-done))
 (add-hook 'emacs-startup-hook #'custom/display-startup-time)
 
 ;; Custom function to add paths to Emacs
@@ -50,6 +50,7 @@ discard any error output from the command."
       column-number-mode 1)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
+(setq tab-always-indent 'complete)
 
 ;; Misc
 (electric-pair-mode)
@@ -106,7 +107,7 @@ discard any error output from the command."
 (require 'tramp)
 (setq tramp-remote-path
       (append tramp-remote-path
-	      '(tramp-own-remote-path)))
+              '(tramp-own-remote-path)))
 
 ;; Nix
 (custom/add-to-path-if-dir "$HOME/.nix-profile/bin")
