@@ -14,20 +14,18 @@
 
 ;; Common Lisp
 (straight-use-package 'slime)
-(defun custom/config-cl ()
-  "Configure common lisp mode"
-  (let ((quicklisp "~/.quicklisp/slime-helper.el"))
-    (when (file-exists-p quicklisp)
-      (load (expand-file-name quicklisp))))
-  (setq inferior-lisp-program "sbcl")
-  ;; Custom keybindings
-  (evil-define-key 'normal slime-repl-mode-map (kbd "g r") 'slime-restart-inferior-lisp))
-(with-eval-after-load 'common-lisp-mode (custom/config-cl))
+(setq inferior-lisp-program "sbcl")
+(let ((quicklisp "~/quicklisp/slime-helper.el"))
+  (when (file-exists-p quicklisp)
+    (load (expand-file-name quicklisp))))
+(setq slime-contribs (append slime-contribs '(slime-quicklisp slime-asdf)))
+(evil-define-key 'normal slime-repl-mode-map (kbd "g r") 'slime-restart-inferior-lisp)
 
-
-;; JS and TS
-(setq-default typescript-indent-level 2)
-(setq-default js-indent-level 2)
+;; Geiser
+(straight-use-package 'geiser)
+(straight-use-package 'geiser-chez)
+(straight-use-package 'geiser-guile)
+(straight-use-package 'geiser-racket)
 
 ;; Lean
 (custom/add-to-path-if-dir "$HOME/.elan/bin")
