@@ -50,7 +50,7 @@ discard any error output from the command."
       column-number-mode 1)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
-(setq tab-always-indent 'complete)
+;; (setq tab-always-indent 'complete)
 
 ;; Misc
 (electric-pair-mode)
