@@ -3,6 +3,7 @@
 ;; Eglot
 (straight-use-package 'eglot)
 (straight-use-package 'company)
+(add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode -1)))
 
 ;; Rust
 (custom/add-to-path-if-dir "$HOME/.cargo/bin")
@@ -11,7 +12,6 @@
 (add-hook 'rust-mode-hook 'cargo-minor-mode)
 (add-hook 'rust-mode-hook 'eglot-ensure)
 (add-hook 'rust-mode-hook 'company-mode)
-(add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode -1)))
 
 ;; Common Lisp
 (straight-use-package 'slime)
@@ -43,25 +43,16 @@
 ;; OCaml
 (straight-use-package 'caml-mode)
 (straight-use-package 'tuareg)
-(straight-use-package 'merlin)
 (straight-use-package 'dune)
 (straight-use-package 'utop)
 (straight-use-package 'flycheck-ocaml)
-(straight-use-package 'merlin-iedit)       ; iedit.el editing of occurrences
-(straight-use-package 'merlin-company)     ; company.el completion
-(straight-use-package 'merlin-eldoc)       ; eldoc support
-;; (straight-use-package 'merlin-ac)          ; auto-complete.el completion
 (custom/add-to-path-if-dir "$HOME/.opam/default/bin")
-(add-hook 'tuareg-mode-hook #'merlin-mode)
 (add-hook 'tuareg-mode-hook #'utop-minor-mode)
-(add-hook 'tuareg-mode-hook #'merlin-eldoc-setup)
-(add-hook 'caml-mode-hook #'merlin-mode)
-(add-hook 'merlin-mode-hook #'company-mode)
+(add-hook 'tuareg-mode-hook #'eglot-ensure)
+(add-hook 'tuareg-mode-hook #'company-mode)
 (add-to-list 'auto-mode-alist '("\\.ocamlinit\\'" . tuareg-mode))
 (setq utop-command "opam exec -- dune utop . -- -emacs")
 (setq tuareg-interactive-program "opam exec -- dune utop . -- -emacs")
-;; To easily change opam switches and pick the ocamlmerlin binary accordingly,
-;; you can use the minor mode https://github.com/ProofGeneral/opam-switch-mode
 
 ;; Lurk
 (straight-use-package 'lurk-mode)
