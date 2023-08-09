@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t -*-
 (defun custom/config-evil ()
-  "Configure evil mode."
+  "Configure Evil mode."
 
   ;; Use insert state in these additional modes.
   (dolist (mode '(evil-command-window-mode))

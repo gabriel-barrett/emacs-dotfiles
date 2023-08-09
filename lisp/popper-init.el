@@ -40,6 +40,7 @@
 (global-set-key (kbd "C-`") 'popper-toggle-latest)
 (global-set-key (kbd "M-`") 'popper-cycle)
 (global-set-key (kbd "C-M-`") 'popper-toggle-type)
+(setq popper-window-height 16)
 (popper-mode +1)
 
 ;; For echo-area hints

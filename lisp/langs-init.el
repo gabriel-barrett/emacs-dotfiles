@@ -46,10 +46,18 @@
 (straight-use-package 'dune)
 (straight-use-package 'utop)
 (straight-use-package 'flycheck-ocaml)
+
+(defun custom/tuareg-config-hook ()
+  "Configuration hook for Tuareg mode."
+  (utop-minor-mode)
+  (eglot-ensure)
+  (company-mode)
+  (setq-local
+   compile-command (concat "dune build")
+   compilation-read-command nil))
+
 (custom/add-to-path-if-dir "$HOME/.opam/default/bin")
-(add-hook 'tuareg-mode-hook #'utop-minor-mode)
-(add-hook 'tuareg-mode-hook #'eglot-ensure)
-(add-hook 'tuareg-mode-hook #'company-mode)
+(add-hook 'tuareg-mode-hook #'custom/tuareg-config-hook)
 (add-to-list 'auto-mode-alist '("\\.ocamlinit\\'" . tuareg-mode))
 (setq utop-command "opam exec -- dune utop . -- -emacs")
 (setq tuareg-interactive-program "opam exec -- dune utop . -- -emacs")
