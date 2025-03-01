@@ -4,7 +4,7 @@
   (message "Emacs loaded in %s with %d garbage collections."
            (format "%.2f seconds"
                    (float-time
-                   (time-subtract after-init-time before-init-time)))
+                    (time-subtract after-init-time before-init-time)))
            gcs-done))
 (add-hook 'emacs-startup-hook #'custom/display-startup-time)
 
@@ -53,6 +53,7 @@ discard any error output from the command."
 ;; (setq tab-always-indent 'complete)
 
 ;; Misc
+(set-face-attribute 'default nil :height 140) ;; 140 corresponds to 14pt
 (electric-pair-mode)
 (show-paren-mode 1)
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -67,10 +68,10 @@ discard any error output from the command."
 
 ;; Basic settings for backup, auto-saves, etc
 (setq
-   backup-directory-alist `(("." . ,(expand-file-name "tmp/backups/" user-emacs-directory)))
-   backup-by-copying 1
-   delete-old-versions 1
-   version-control 1)
+ backup-directory-alist `(("." . ,(expand-file-name "tmp/backups/" user-emacs-directory)))
+ backup-by-copying 1
+ delete-old-versions 1
+ version-control 1)
 
 (make-directory
  (expand-file-name "tmp/auto-saves/sessions" user-emacs-directory) t)
@@ -81,6 +82,7 @@ discard any error output from the command."
  `((".*" ,(expand-file-name "tmp/auto-saves/" user-emacs-directory) t)))
 
 (setq undo-tree-auto-save-history nil)
+(setenv "PAGER" "cat")
 
 ;; Relative numbers
 (setq display-line-numbers-type 'relative)
@@ -108,9 +110,18 @@ discard any error output from the command."
 (setq tramp-remote-path
       (append tramp-remote-path
               '(tramp-own-remote-path)))
+(setq remote-file-name-inhibit-cache nil)
+(setq vc-ignore-dir-regexp
+      (format "%s\\|%s"
+              vc-ignore-dir-regexp
+              tramp-file-name-regexp))
+(setq tramp-verbose 1)
+(setq vc-handled-backends '(Git))
+(setq remote-file-name-inhibit-locks t)
 
-;; Nix
+;; Local programs
 (custom/add-to-path-if-dir "$HOME/.nix-profile/bin")
+(custom/add-to-path-if-dir "$HOME/.local/bin")
 
 ;; Evil mode
 (straight-use-package 'evil)
@@ -131,6 +142,7 @@ discard any error output from the command."
 
 ;; Magit
 (straight-use-package 'magit)
+(setenv "SSH_ASKPASS_REQUIRE" "prefer")
 (require 'magit)
 
 ;; Term mode
@@ -160,7 +172,7 @@ discard any error output from the command."
 (load-theme 'spacemacs-dark 1)
 
 ;; Emacs icons
-(straight-use-package 'all-the-icons)
+(straight-use-package 'nerd-icons)
 
 ;; Doom modeline
 (straight-use-package 'doom-modeline)

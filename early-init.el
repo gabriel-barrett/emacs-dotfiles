@@ -9,7 +9,7 @@
 (setq file-name-handler-alist nil)
 (defun custom/reset-file-name-handler-alist ()
   (setq file-name-handler-alist
-	(append default-file-name-handler-alist file-name-handler-alist))
+        (append default-file-name-handler-alist file-name-handler-alist))
   (cl-delete-duplicates file-name-handler-alist :test 'equal))
 (add-hook 'after-init-hook 'custom/reset-file-name-handler-alist)
 

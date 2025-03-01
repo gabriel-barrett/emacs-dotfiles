@@ -20,9 +20,9 @@
 
 (setq openwith-associations
       `((,(rx "." (or "mp4" "mkv" "webm" "avi" "flv" "mov" "mpeg" "wmv")) "mpv"
-	(file))
-       (,(rx "." (or "jpg" "jpeg" "png")) "feh"
-	("--fullscreen" file))))
+         (file))
+        (,(rx "." (or "jpg" "jpeg" "png")) "feh"
+         ("--fullscreen" file))))
 
 (defun abort-if-file-too-large--except (orig-fn size op-type filename &optional offer-raw)
   "Do not abort if FILENAME is handled by Openwith."

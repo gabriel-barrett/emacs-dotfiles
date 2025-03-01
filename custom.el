@@ -5,6 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(evil-undo-system 'undo-redo)
  '(straight-recipe-repositories '(org-elpa melpa gnu-elpa-mirror el-get emacsmirror))
+ '(tab-width 4)
  '(warning-suppress-types '((comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

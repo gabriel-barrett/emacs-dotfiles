@@ -12,8 +12,8 @@
 
   ;; Use emacs state in these additional modes.
   (dolist (mode '(slime-repl-mode
-		  term-mode
-		  geiser-repl-mode))
+                  term-mode
+                  geiser-repl-mode))
     (evil-set-initial-state mode 'emacs))
 
   ;; Global bindings.
@@ -31,18 +31,20 @@
   (evil-leader/set-leader ",")
   (evil-leader/set-key
     ","  'other-window
-    "r"  'revert-buffer
-    "h"  'evil-window-left
-    "l"  'evil-window-right
     "."  'mode-line-other-buffer
+    "D"  (lambda () (interactive) (dired "."))
     "b"  'switch-to-buffer
     "c"  'comment-dwim
     "d"  'kill-this-buffer
-    "D"  (lambda () (interactive) (dired "."))
-    "k"  'kill-buffer
+    "e"  'eldoc-box-help-at-point
     "f"  'find-file
     "g"  'magit-status
+    "h"  'evil-window-left
+    "k"  'kill-buffer
+    "l"  'evil-window-right
     "o"  'delete-other-windows
+    "r"  'revert-buffer
+    "t"  'custom/gptel-send
     "w"  'save-buffer
     "x"  'execute-extended-command
     ))

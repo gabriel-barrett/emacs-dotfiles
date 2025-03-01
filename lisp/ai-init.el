@@ -5,7 +5,7 @@
 (require 'gptel)
 (setq gptel-api-key
       (lambda ()
-	(custom/shell-command-to-string-on-success "gpg -d $HOME/chatgpt.api.gpg" t)))
+	    (custom/shell-command-to-string-on-success "gpg -d $HOME/chatgpt.api.gpg" t)))
 
 (defvar custom/gptel--system-message
   "You are a large language model living in Emacs and a helpful assistant. Answer the questions thoroughly")
@@ -31,8 +31,8 @@ assistant messages."
                      "[*# \t\n\r]+"))
               prompts))
       (cons (list :role "system"
-		  :content custom/gptel--system-message)
-	    prompts))))
+		          :content custom/gptel--system-message)
+	        prompts))))
 
 (defun custom/gptel-send ()
   "Submit a message to ChatGPT and display the output in a separate buffer."
@@ -51,16 +51,5 @@ assistant messages."
              :position (goto-char (point-max)))))
     (gptel--update-header-line " Waiting..." 'warning)
     (display-buffer gptel-buffer)))
-
-(evil-leader/set-key
-  "t"  'custom/gptel-send)
-
-;; Copilot
-(straight-use-package '(copilot
-			:type git
-			:host github
-			:repo "zerolfx/copilot.el"
-			:files ("dist" "*.el")))
-; you can utilize :map :hook and :config to customize copilot
 
 (provide 'ai-init)
