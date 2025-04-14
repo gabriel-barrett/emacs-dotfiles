@@ -48,8 +48,10 @@ discard any error output from the command."
       inhibit-startup-echo-area-message 1
       visible-bell 1
       column-number-mode 1)
-(tool-bar-mode 0)
-(scroll-bar-mode 0)
+(when (display-graphic-p)
+  (tool-bar-mode 0)
+  (menu-bar-mode 0)
+  (scroll-bar-mode 0))
 ;; (setq tab-always-indent 'complete)
 
 ;; Misc
