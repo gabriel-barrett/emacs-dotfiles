@@ -35,7 +35,7 @@
     "D"  (lambda () (interactive) (dired "."))
     "b"  'switch-to-buffer
     "c"  'comment-dwim
-    "d"  'kill-this-buffer
+    "d"  'kill-current-buffer
     "e"  'eldoc-box-help-at-point
     "f"  'find-file
     "g"  'magit-status
