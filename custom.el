@@ -8,7 +8,10 @@
  '(custom-enabled-themes '(tango-dark))
  '(display-line-numbers t)
  '(fido-vertical-mode t)
+ '(god-mode-alist '((nil . "C-") ("g" . "M-") ("," . "C-M-")))
+ '(god-mode-lighter-string "COMMAND")
  '(isearch-wrap-pause 'no-ding)
+ '(package-selected-packages nil)
  '(pixel-scroll-precision-mode t)
  '(visible-bell t))
 (custom-set-faces
