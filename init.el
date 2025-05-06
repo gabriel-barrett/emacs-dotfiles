@@ -9,6 +9,9 @@
 	   gcs-done))
 (add-hook 'emacs-startup-hook #'custom/display-startup-time)
 
+;; Packages
+(package-initialize)
+
 ;; Magit
 (use-package magit
   :ensure t)

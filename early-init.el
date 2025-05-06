@@ -14,3 +14,6 @@
 
 ;; Custom file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+
+;; Inhibit packages
+(setq package-enable-at-startup nil)
