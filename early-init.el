@@ -20,7 +20,7 @@
 (setq load-prefer-newer t)
 
 ;; Fullscreen
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+(add-to-list 'default-frame-alist '(fullscreen . fullboth))
 
 ;; Do not load package.el since we are gonna use either straight or guix
 (setq package-enable-at-startup nil)

@@ -50,9 +50,7 @@ discard any error output from the command."
       column-number-mode 1)
 (when (display-graphic-p)
   (tool-bar-mode 0)
-  (menu-bar-mode 0)
   (scroll-bar-mode 0))
-;; (setq tab-always-indent 'complete)
 
 ;; Misc
 (set-face-attribute 'default nil :height 140) ;; 140 corresponds to 14pt

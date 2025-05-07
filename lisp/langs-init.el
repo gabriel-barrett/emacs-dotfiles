@@ -37,6 +37,7 @@
                         :repo "leanprover/lean4-mode"
                         :files ("*.el" "data")))
 (advice-add 'lean-select-mode :after (lambda (&rest r) (set-input-method "Lean")))
+(setq warning-minimum-level :error)
 
 ;; Haskell
 (straight-use-package 'haskell-mode)
