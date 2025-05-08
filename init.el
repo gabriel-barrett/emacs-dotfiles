@@ -9,6 +9,20 @@
 	   gcs-done))
 (add-hook 'emacs-startup-hook #'custom/display-startup-time)
 
+;; Window management
+(global-set-key (kbd "s-<tab>") #'other-window)
+(global-set-key (kbd "s-t") #'window-swap-states)
+(global-set-key (kbd "s-q") #'delete-window)
+(global-set-key (kbd "s-h") #'split-window-right)
+(global-set-key (kbd "s-v") #'split-window-below)
+
+;; Buffer management
+(global-set-key (kbd "s-,") #'previous-buffer)
+(global-set-key (kbd "s-.") #'next-buffer)
+(define-key global-map [remap list-buffers] #'ibuffer)
+
+;; Common applications
+
 ;; Packages
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)

@@ -13,6 +13,7 @@
  '(isearch-wrap-pause 'no-ding)
  '(package-selected-packages nil)
  '(pixel-scroll-precision-mode t)
+ '(scroll-bar-mode nil)
  '(visible-bell t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
