@@ -7,13 +7,16 @@
  '(context-menu-mode t)
  '(custom-enabled-themes '(tango-dark))
  '(display-line-numbers t)
+ '(electric-pair-mode t)
  '(fido-vertical-mode t)
  '(god-mode-alist '((nil . "C-") ("g" . "M-") ("," . "C-M-")))
  '(god-mode-lighter-string "COMMAND")
  '(isearch-wrap-pause 'no-ding)
+ '(next-screen-context-lines 8)
  '(package-selected-packages nil)
  '(pixel-scroll-precision-mode t)
  '(scroll-bar-mode nil)
+ '(use-short-answers t)
  '(visible-bell t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

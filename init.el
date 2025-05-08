@@ -21,7 +21,15 @@
 (global-set-key (kbd "s-.") #'next-buffer)
 (define-key global-map [remap list-buffers] #'ibuffer)
 
-;; Common applications
+;; ISearch
+(define-key isearch-mode-map (kbd "C-o") 'isearch-occur)
+
+;; Shell
+(global-set-key (kbd "C-c m") #'eshell)
+(global-set-key (kbd "C-c M") (lambda () (interactive) (eshell t)))
+
+;; Other keybindings
+(global-set-key (kbd "C-.") #'repeat)
 
 ;; Packages
 (require 'package)
@@ -43,3 +51,6 @@
 
 ;; Load custom file
 (load custom-file 'noerror)
+
+;; Miscellaneous
+(put 'dired-find-alternate-file 'disabled nil)
