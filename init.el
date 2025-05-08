@@ -49,6 +49,17 @@
   (define-key isearch-mode-map (kbd "C-'") #'god-mode-isearch-activate)
   (define-key god-mode-isearch-map (kbd "C-'") #'god-mode-isearch-disable))
 
+;; Icons, etc
+(use-package spacemacs-theme
+  :ensure t)
+(use-package nerd-icons
+  :ensure t)
+(use-package doom-modeline
+  :ensure t
+  :hook (after-init . doom-modeline-mode))
+(use-package solaire-mode
+  :ensure t)
+
 ;; Load custom file
 (load custom-file 'noerror)
 
