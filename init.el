@@ -9,6 +9,14 @@
 	   gcs-done))
 (add-hook 'emacs-startup-hook #'custom/display-startup-time)
 
+(defun custom/add-to-path-if-dir (path)
+  "Add PATH to the `exec-path` and `PATH` environment variable if it is a valid directory."
+  (let ((expanded-path (substitute-in-file-name path)))
+    (when (file-directory-p expanded-path)
+      (unless (member expanded-path exec-path)
+        (setq exec-path (append exec-path (list expanded-path)))
+        (setenv "PATH" (concat (getenv "PATH") path-separator expanded-path))))))
+
 ;; Window management
 (global-set-key (kbd "s-<tab>") #'other-window)
 (global-set-key (kbd "s-t") #'window-swap-states)
@@ -59,6 +67,9 @@
   :hook (after-init . doom-modeline-mode))
 (use-package solaire-mode
   :ensure t)
+
+(load (expand-file-name "langs.el" user-emacs-directory))
+(require 'langs)
 
 ;; Load custom file
 (load custom-file 'noerror)

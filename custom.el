@@ -16,6 +16,7 @@
  '(god-mode-alist '((nil . "C-") ("g" . "M-") ("," . "C-M-")))
  '(god-mode-lighter-string "COMMAND")
  '(isearch-wrap-pause 'no-ding)
+ '(lean4-delete-trailing-whitespace t)
  '(next-screen-context-lines 8)
  '(package-selected-packages nil)
  '(pixel-scroll-precision-mode t)
@@ -24,6 +25,7 @@
  '(tool-bar-style 'text)
  '(use-short-answers t)
  '(visible-bell t)
+ '(warning-minimum-level :error)
  '(xterm-mouse-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
