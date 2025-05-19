@@ -31,6 +31,8 @@
  '(use-short-answers t)
  '(visible-bell t)
  '(warning-minimum-level :error)
+ '(which-key-idle-delay 0.2)
+ '(which-key-mode t)
  '(xterm-mouse-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
