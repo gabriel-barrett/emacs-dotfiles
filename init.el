@@ -63,6 +63,19 @@
 (use-package magit
   :ensure t)
 
+;; Composable editing
+(use-package composable
+  :ensure t
+  :config
+  (define-key global-map [remap kill-region] #'composable-kill-region)
+  (define-key global-map [remap kill-ring-save] #'composable-kill-ring-save)
+  (define-key global-map [remap delete-region] #'composable-delete-region)
+  (define-key global-map [remap indent-region] #'composable-indent-region)
+  (define-key global-map [remap comment-dwim] #'composable-comment-dwim)
+  (define-key global-map [remap downcase-region] #'composable-downcase-region)
+  (define-key global-map [remap upcase-region] #'composable-upcase-region)
+  (setq composable-repeat nil))
+
 ;; God mode
 (use-package god-mode
   :ensure t
