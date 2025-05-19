@@ -104,3 +104,4 @@
 
 ;; Miscellaneous
 (put 'dired-find-alternate-file 'disabled nil)
+(set-face-attribute 'default nil :height 144)
