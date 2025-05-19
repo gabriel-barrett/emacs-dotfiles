@@ -60,12 +60,10 @@
 (package-initialize)
 
 ;; Magit
-(use-package magit
-  :ensure t)
+(use-package magit :ensure t)
 
 ;; Composable editing
-(use-package composable
-  :ensure t
+(use-package composable :ensure t
   :config
   (define-key global-map [remap kill-region] #'composable-kill-region)
   (define-key global-map [remap kill-ring-save] #'composable-kill-ring-save)
@@ -77,8 +75,7 @@
   (setq composable-repeat nil))
 
 ;; God mode
-(use-package god-mode
-  :ensure t
+(use-package god-mode :ensure t
   :config
   (global-set-key (kbd "C-'") #'god-mode-all)
   (require 'god-mode-isearch)
@@ -86,15 +83,11 @@
   (define-key god-mode-isearch-map (kbd "C-'") #'god-mode-isearch-disable))
 
 ;; Icons, etc
-(use-package spacemacs-theme
-  :ensure t)
-(use-package nerd-icons
-  :ensure t)
-(use-package doom-modeline
-  :ensure t
+(use-package spacemacs-theme :ensure t)
+(use-package nerd-icons :ensure t)
+(use-package doom-modeline :ensure t
   :hook (after-init . doom-modeline-mode))
-(use-package solaire-mode
-  :ensure t)
+(use-package solaire-mode :ensure t)
 
 (load (expand-file-name "langs.el" user-emacs-directory))
 (require 'langs)
