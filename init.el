@@ -14,8 +14,8 @@
   (let ((expanded-path (substitute-in-file-name path)))
     (when (file-directory-p expanded-path)
       (unless (member expanded-path exec-path)
-        (setq exec-path (append exec-path (list expanded-path)))
-        (setenv "PATH" (concat (getenv "PATH") path-separator expanded-path))))))
+	(setq exec-path (append exec-path (list expanded-path)))
+	(setenv "PATH" (concat (getenv "PATH") path-separator expanded-path))))))
 
 ;; Window management
 (global-set-key (kbd "s-<tab>") #'other-window)
@@ -38,6 +38,21 @@
 
 ;; Other keybindings
 (global-set-key (kbd "C-.") #'repeat)
+(global-set-key (kbd "M-Z") #'zap-up-to-char)
+(global-set-key (kbd "M-p")
+		(lambda (arg)
+		  (interactive "p")
+		  (scroll-down-line arg)
+		  (previous-line arg)))
+(global-set-key (kbd "M-n")
+		(lambda (arg)
+		  (interactive "p")
+		  (scroll-up-line arg)
+		  (next-line arg)))
+(define-key global-map [remap exchange-point-and-mark]
+	    (lambda ()
+	      (interactive)
+	      (exchange-point-and-mark (not mark-active))))
 
 ;; Packages
 (require 'package)
