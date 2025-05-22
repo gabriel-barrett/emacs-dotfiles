@@ -53,6 +53,13 @@
 	    (lambda ()
 	      (interactive)
 	      (exchange-point-and-mark (not mark-active))))
+(defvar custom/night-mode nil)
+(global-set-key (kbd "s-n")
+		(lambda () (interactive)
+		  (if custom/night-mode
+		      (progn (set-frame-parameter (selected-frame) 'alpha 100) (load-theme 'modus-operandi-tinted))
+		    (progn (set-frame-parameter (selected-frame) 'alpha 96) (load-theme 'modus-vivendi-tinted)))
+		  (setq custom/night-mode (not custom/night-mode))))
 
 ;; Packages
 (require 'package)
@@ -74,16 +81,26 @@
   (define-key global-map [remap upcase-region] #'composable-upcase-region)
   (setq composable-repeat nil))
 
+;; Podman
+(use-package docker
+  :defer t
+  :ensure t
+  :bind ("C-c d" . docker)
+  :config
+  (setf docker-command "podman"
+	docker-compose-command "podman-compose"
+	docker-container-tramp-method "podman"))
+
 ;; God mode
 (use-package god-mode :ensure t
   :config
+  (customize-set-variable 'god-mode-alist '((nil . "C-") ("g" . "M-") ("," . "C-M-")))
   (global-set-key (kbd "C-'") #'god-mode-all)
   (require 'god-mode-isearch)
   (define-key isearch-mode-map (kbd "C-'") #'god-mode-isearch-activate)
   (define-key god-mode-isearch-map (kbd "C-'") #'god-mode-isearch-disable))
 
 ;; Icons, etc
-(use-package spacemacs-theme :ensure t)
 (use-package nerd-icons :ensure t)
 (use-package doom-modeline :ensure t
   :hook (after-init . doom-modeline-mode))
@@ -96,5 +113,6 @@
 (load custom-file 'noerror)
 
 ;; Miscellaneous
+(add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode -1)))s
 (put 'dired-find-alternate-file 'disabled nil)
-(set-face-attribute 'default nil :height 144)
+(set-face-attribute 'default nil :height 120)

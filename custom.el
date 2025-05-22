@@ -4,25 +4,27 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(auth-sources '("~/.authinfo.gpg"))
+ '(column-number-mode t)
  '(context-menu-mode t)
- '(custom-enabled-themes '(spacemacs-dark))
- '(custom-safe-themes
-   '("bbb13492a15c3258f29c21d251da1e62f1abb8bbd492386a673dcfab474186af"
-     "7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf"
-     default))
+ '(custom-enabled-themes '(modus-operandi-tinted))
+ '(custom-safe-themes '(default))
  '(delete-selection-mode t)
  '(display-line-numbers t)
  '(electric-pair-mode t)
  '(fido-vertical-mode t)
+ '(fill-column 80)
  '(global-auto-revert-mode t)
- '(god-mode-alist '((nil . "C-") ("g" . "M-") ("," . "C-M-")))
- '(god-mode-lighter-string "COMMAND")
  '(isearch-wrap-pause 'no-ding)
  '(kill-read-only-ok t)
  '(lean4-delete-trailing-whitespace t)
  '(next-screen-context-lines 8)
  '(package-selected-packages nil)
+ '(org-modules
+   '(ol-bbdb ol-bibtex ol-docview ol-doi ol-eww ol-gnus ol-info ol-irc ol-mhe
+	     ol-rmail org-tempo ol-w3m))
  '(pixel-scroll-precision-mode t)
+ '(repeat-mode t)
  '(save-place-mode t)
  '(scroll-bar-mode nil)
  '(shift-select-mode 'permanent)
