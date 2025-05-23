@@ -1,5 +1,8 @@
 ;; -*- lexical-binding: t -*-
 
+;; Load custom file
+(load custom-file 'noerror)
+
 (defun custom/display-startup-time ()
   "Measure the init time and display it at startup"
   (message "Emacs loaded in %s with %d garbage collections."
@@ -42,12 +45,12 @@
 (global-set-key (kbd "M-p")
 		(lambda (arg)
 		  (interactive "p")
-		  (scroll-down-line arg)
+		  (ignore-errors (scroll-down-line arg))
 		  (previous-line arg)))
 (global-set-key (kbd "M-n")
 		(lambda (arg)
 		  (interactive "p")
-		  (scroll-up-line arg)
+		  (ignore-errors (scroll-up-line arg))
 		  (next-line arg)))
 (define-key global-map [remap exchange-point-and-mark]
 	    (lambda ()
@@ -63,14 +66,15 @@
 
 ;; Packages
 (require 'package)
+(require 'use-package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
 ;; Magit
-(use-package magit :ensure t)
+(use-package magit)
 
 ;; Composable editing
-(use-package composable :ensure t
+(use-package composable
   :config
   (define-key global-map [remap kill-region] #'composable-kill-region)
   (define-key global-map [remap kill-ring-save] #'composable-kill-ring-save)
@@ -81,10 +85,14 @@
   (define-key global-map [remap upcase-region] #'composable-upcase-region)
   (setq composable-repeat nil))
 
+;; Icons, etc
+(use-package nerd-icons)
+(use-package doom-modeline
+  :hook (after-init . doom-modeline-mode))
+
 ;; Podman
 (use-package docker
   :defer t
-  :ensure t
   :bind ("C-c d" . docker)
   :config
   (setf docker-command "podman"
@@ -92,27 +100,18 @@
 	docker-container-tramp-method "podman"))
 
 ;; God mode
-(use-package god-mode :ensure t
+(use-package god-mode
+  :custom
+  (god-mode-alist '((nil . "C-") ("g" . "M-") ("," . "C-M-")))
   :config
-  (customize-set-variable 'god-mode-alist '((nil . "C-") ("g" . "M-") ("," . "C-M-")))
   (global-set-key (kbd "C-'") #'god-mode-all)
   (require 'god-mode-isearch)
   (define-key isearch-mode-map (kbd "C-'") #'god-mode-isearch-activate)
   (define-key god-mode-isearch-map (kbd "C-'") #'god-mode-isearch-disable))
 
-;; Icons, etc
-(use-package nerd-icons :ensure t)
-(use-package doom-modeline :ensure t
-  :hook (after-init . doom-modeline-mode))
-(use-package solaire-mode :ensure t)
-
 (load (expand-file-name "langs.el" user-emacs-directory))
 (require 'langs)
 
-;; Load custom file
-(load custom-file 'noerror)
-
 ;; Miscellaneous
-(add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode -1)))s
 (put 'dired-find-alternate-file 'disabled nil)
 (set-face-attribute 'default nil :height 120)
