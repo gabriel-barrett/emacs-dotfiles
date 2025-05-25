@@ -70,8 +70,10 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
-;; Magit
+;; Magit and Forge
 (use-package magit)
+(use-package forge
+  :after magit)
 
 ;; Composable editing
 (use-package composable
@@ -103,11 +105,34 @@
 (use-package god-mode
   :custom
   (god-mode-alist '((nil . "C-") ("g" . "M-") ("," . "C-M-")))
+  :bind
+  (("C-'" . god-mode-all)
+   :map isearch-mode-map
+   ("C-'" . god-mode-isearch-activate)
+   :map god-mode-isearch-map
+   ("C-'" . god-mode-isearch-disable))
   :config
-  (global-set-key (kbd "C-'") #'god-mode-all)
-  (require 'god-mode-isearch)
-  (define-key isearch-mode-map (kbd "C-'") #'god-mode-isearch-activate)
-  (define-key god-mode-isearch-map (kbd "C-'") #'god-mode-isearch-disable))
+  (require 'god-mode-isearch))
+
+;; GPT.el
+(use-package gptel
+  :demand t
+  :bind
+  (("C-c g" . gptel)
+   ("C-c G" . (lambda () (interactive) (find-file (read-file-name "Find file: " gptel-chat-directory)))))
+  :config
+  (setq gptel-model   'deepseek-chat
+	gptel-backend (gptel-make-deepseek "DeepSeek"
+			:stream t
+			:key gptel-api-key))
+  (setq gptel--system-message "You are a helpful assistant for programming living inside Emacs")
+  (setq gptel-default-mode 'org-mode)
+  (setq gptel-temperature 0.0)
+  (defvar gptel-chat-directory (expand-file-name "gptel-chats/" user-emacs-directory))
+  (unless (file-exists-p gptel-chat-directory)
+    (make-directory gptel-chat-directory t))
+  (add-hook 'gptel-mode-hook (lambda () (interactive) (setq default-directory gptel-chat-directory)))
+  (add-hook 'gptel-mode-hook (lambda () (setq truncate-lines nil))))
 
 (load (expand-file-name "langs.el" user-emacs-directory))
 (require 'langs)
