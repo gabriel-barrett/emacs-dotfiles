@@ -14,10 +14,10 @@
 
 (defun custom/add-to-path-if-dir (path)
   "Add PATH to the `exec-path` and `PATH` environment variable if it is a valid directory."
-  (let ((expanded-path (substitute-in-file-name path)))
+  (let ((expanded-path (expand-file-name path)))
     (when (file-directory-p expanded-path)
       (unless (member expanded-path exec-path)
-	(setq exec-path (append exec-path (list expanded-path)))
+	(add-to-list 'exec-path expanded-path)
 	(setenv "PATH" (concat (getenv "PATH") path-separator expanded-path))))))
 
 ;; Window management
@@ -70,8 +70,19 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
+;; Org mode configuration
+(use-package org
+  :ensure nil
+  :defer t
+  :custom (org-fontify-whole-heading-line t)
+  :custom-face
+  (org-level-1 ((t (:height 1.4))))
+  (org-level-2 ((t (:height 1.2))))
+  (org-level-3 ((t (:height 1.1)))))
+
 ;; Magit and Forge
-(use-package magit)
+(use-package magit
+  :defer t)
 (use-package forge
   :after magit)
 
@@ -116,7 +127,13 @@
 
 ;; GPT.el
 (use-package gptel
-  :demand t
+  :defer t
+  :init
+  (defvar gptel-chat-directory (expand-file-name "gptel-chats/" user-emacs-directory))
+  (unless (file-exists-p gptel-chat-directory)
+    (make-directory gptel-chat-directory t))
+  :custom
+  (gptel-prompt-prefix-alist '((markdown-mode . "# ") (org-mode . "* ") (text-mode . "# ")))
   :bind
   (("C-c g" . gptel)
    ("C-c G" . (lambda () (interactive) (find-file (read-file-name "Find file: " gptel-chat-directory)))))
@@ -128,9 +145,6 @@
   (setq gptel--system-message "You are a helpful assistant for programming living inside Emacs")
   (setq gptel-default-mode 'org-mode)
   (setq gptel-temperature 0.0)
-  (defvar gptel-chat-directory (expand-file-name "gptel-chats/" user-emacs-directory))
-  (unless (file-exists-p gptel-chat-directory)
-    (make-directory gptel-chat-directory t))
   (add-hook 'gptel-mode-hook (lambda () (interactive) (setq default-directory gptel-chat-directory)))
   (add-hook 'gptel-mode-hook (lambda () (setq truncate-lines nil))))
 
@@ -140,3 +154,5 @@
 ;; Miscellaneous
 (put 'dired-find-alternate-file 'disabled nil)
 (set-face-attribute 'default nil :height 120)
+
+(provide 'init)

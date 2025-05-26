@@ -1,7 +1,8 @@
 ;; -*- lexical-binding: t -*-
 
 ;; Increase garbage collector threshold. Inspect `gcs-done'.
-(setq gc-cons-threshold (* 8 1024 1024))
+(setq gc-cons-threshold #x4000000)
+(setq gc-cons-percentage 0.25)
 
 ;; Load newer source as opposed to older bytecode
 (setq load-prefer-newer t)
