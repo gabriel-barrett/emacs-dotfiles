@@ -152,18 +152,17 @@
   (unless (file-exists-p gptel-chat-directory)
     (make-directory gptel-chat-directory t))
   :custom
-  (gptel-prompt-prefix-alist '((markdown-mode . "# ") (org-mode . "* ") (text-mode . "# ")))
+  ((gptel-prompt-prefix-alist '((markdown-mode . "# ") (org-mode . "* ") (text-mode . "# ")))
+   (gptel-default-mode 'org-mode)
+   (gptel-temperature 0.0))
   :bind
   (("C-c g" . gptel)
    ("C-c G" . (lambda () (interactive) (find-file (read-file-name "Find file: " gptel-chat-directory)))))
   :config
-  (setq gptel-model   'deepseek-chat
-	gptel-backend (gptel-make-deepseek "DeepSeek"
-			:stream t
-			:key gptel-api-key))
-  (setq gptel--system-message "You are a helpful assistant for programming living inside Emacs")
-  (setq gptel-default-mode 'org-mode)
-  (setq gptel-temperature 0.0)
+  (gptel-make-deepseek "DeepSeek" :stream t :key gptel-api-key)
+  (gptel-make-anthropic "Claude" :stream t :key gptel-api-key)
+  (setq gptel--system-message "You are a precise, objective and non-subjective AI assistant living inside Emacs.")
+  (setq gptel--set-buffer-locally t)
   (add-hook 'gptel-mode-hook (lambda () (interactive) (setq default-directory gptel-chat-directory)))
   (add-hook 'gptel-mode-hook (lambda () (setq truncate-lines nil))))
 
