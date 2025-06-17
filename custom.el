@@ -6,6 +6,7 @@
  ;; If there is more than one, they won't work right.
  '(auth-sources '("~/.authinfo.gpg"))
  '(column-number-mode t)
+ '(confirm-kill-emacs 'y-or-n-p)
  '(context-menu-mode t)
  '(custom-enabled-themes '(modus-operandi-tinted))
  '(delete-selection-mode t)

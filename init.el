@@ -40,7 +40,6 @@
 (global-set-key (kbd "C-c M") (lambda () (interactive) (eshell t)))
 
 ;; Other keybindings
-(global-set-key (kbd "C-.") #'repeat)
 (global-set-key (kbd "M-Z") #'zap-up-to-char)
 (global-set-key (kbd "M-p")
 		(lambda (arg)
@@ -98,6 +97,39 @@
   (define-key global-map [remap upcase-region] #'composable-upcase-region)
   (setq composable-repeat nil))
 
+;; Dot mode
+(use-package dot-mode
+  :config
+  (global-dot-mode))
+
+;; God/Evil mode
+(defun custom/use-god-mode ()
+  (use-package god-mode
+    :custom
+    (god-mode-alist '((nil . "C-") ("g" . "M-") ("," . "C-M-")))
+    :bind
+    (("C-'" . god-mode-all)
+     :map isearch-mode-map
+     ("C-'" . god-mode-isearch-activate)
+     :map god-mode-isearch-map
+     ("C-'" . god-mode-isearch-disable))
+    :config
+    (require 'god-mode-isearch)))
+
+(defun custom/use-evil-mode ()
+  (use-package evil
+    :custom
+    ((evil-want-C-u-scroll t)
+     (evil-default-state 'emacs)
+     (evil-insert-state-modes nil)
+     (evil-motion-state-modes nil))
+    :bind
+    (("C-'" . evil-normal-state)
+     :map evil-normal-state-map
+     ("C-'" . evil-emacs-state))
+    :config
+    (evil-mode 1)))
+
 ;; Icons, etc
 (use-package nerd-icons)
 (use-package doom-modeline
@@ -111,19 +143,6 @@
   (setf docker-command "podman"
 	docker-compose-command "podman-compose"
 	docker-container-tramp-method "podman"))
-
-;; God mode
-(use-package god-mode
-  :custom
-  (god-mode-alist '((nil . "C-") ("g" . "M-") ("," . "C-M-")))
-  :bind
-  (("C-'" . god-mode-all)
-   :map isearch-mode-map
-   ("C-'" . god-mode-isearch-activate)
-   :map god-mode-isearch-map
-   ("C-'" . god-mode-isearch-disable))
-  :config
-  (require 'god-mode-isearch))
 
 ;; GPT.el
 (use-package gptel
