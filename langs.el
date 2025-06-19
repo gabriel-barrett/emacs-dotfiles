@@ -12,8 +12,7 @@
   (rust-mode . cargo-minor-mode)
   (rust-mode . eglot-ensure)
   (rust-mode . company-mode)
-  :custom
-  (rust-format-on-save t)
+  (before-save-hook . eglot-format-buffer)
   :config
   (custom/add-to-path-if-dir "$HOME/.cargo/bin"))
 (use-package cargo-mode
