@@ -1,9 +1,19 @@
 ;; Eglot
 (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode -1)))
 
-;; Company
-(use-package company
-  :defer t)
+;; Company, etc
+(use-package company :defer t)
+(use-package paredit :defer t)
+(use-package flycheck :defer t)
+
+;; Common lisp
+(use-package slime
+  :defer t
+  :config
+  (setq inferior-lisp-program "sbcl")
+  (slime-setup '(slime-fancy))
+  (add-hook 'lisp-mode-hook 'paredit-mode)
+  (add-hook 'lisp-mode-hook 'company-mode))
 
 ;; Rust
 (use-package rust-mode
