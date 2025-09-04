@@ -36,7 +36,7 @@
 (define-key isearch-mode-map (kbd "C-o") 'isearch-occur)
 
 ;; Shell
-(global-set-key (kbd "C-c m") #'eshell)
+(global-set-key (kbd "C-c m") #'shell)
 (global-set-key (kbd "C-c M") (lambda () (interactive) (eshell t)))
 
 ;; Other keybindings
@@ -159,7 +159,8 @@
   (("C-c g" . gptel)
    ("C-c G" . (lambda () (interactive) (find-file (read-file-name "Find file: " gptel-chat-directory)))))
   :config
-  (gptel-make-deepseek "DeepSeek" :stream t :key gptel-api-key)
+  (setq gptel-model 'deepseek-chat
+	gptel-backend (gptel-make-deepseek "DeepSeek" :stream t :key gptel-api-key))
   (gptel-make-anthropic "Claude" :stream t :key gptel-api-key)
   (setq gptel--system-message "You are a precise, objective and non-subjective AI assistant living inside Emacs.")
   (setq gptel--set-buffer-locally t)
