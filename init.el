@@ -144,6 +144,9 @@
 	docker-compose-command "podman-compose"
 	docker-container-tramp-method "podman"))
 
+;; Tramp
+(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+
 ;; GPT.el
 (use-package gptel
   :defer t
