@@ -10,8 +10,8 @@
 ;; Inhibit resize
 (setq frame-inhibit-implied-resize t)
 
-;; Fullscreen
-(add-to-list 'default-frame-alist '(fullscreen . fullboth))
+;; Maximize
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; Custom file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))

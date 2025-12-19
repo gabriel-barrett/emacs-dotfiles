@@ -3,13 +3,22 @@
 ;; Load custom file
 (load custom-file 'noerror)
 
+;; Font size
+(defun custom/set-default-font-height ()
+  (let* ((height-base 120)
+         (display-pixel-height-base 1080)
+         (scale (/ (display-pixel-height) display-pixel-height-base))
+         (height (* scale height-base)))
+    (set-face-attribute 'default nil :height height)))
+(add-hook 'emacs-startup-hook #'custom/set-default-font-height)
+
 (defun custom/display-startup-time ()
   "Measure the init time and display it at startup"
   (message "Emacs loaded in %s with %d garbage collections."
-	   (format "%.2f seconds"
-		   (float-time
-		    (time-subtract after-init-time before-init-time)))
-	   gcs-done))
+           (format "%.2f seconds"
+                   (float-time
+                    (time-subtract after-init-time before-init-time)))
+           gcs-done))
 (add-hook 'emacs-startup-hook #'custom/display-startup-time)
 
 (defun custom/add-to-path-if-dir (path)
@@ -17,11 +26,11 @@
   (let ((expanded-path (expand-file-name path)))
     (when (file-directory-p expanded-path)
       (unless (member expanded-path exec-path)
-	(add-to-list 'exec-path expanded-path)
-	(setenv "PATH" (concat (getenv "PATH") path-separator expanded-path))))))
+        (add-to-list 'exec-path expanded-path)
+        (setenv "PATH" (concat (getenv "PATH") path-separator expanded-path))))))
 
 ;; Window management
-(global-set-key (kbd "s-<tab>") #'other-window)
+(global-set-key (kbd "s-o") #'other-window)
 (global-set-key (kbd "s-t") #'window-swap-states)
 (global-set-key (kbd "s-q") #'delete-window)
 (global-set-key (kbd "s-h") #'split-window-right)
@@ -42,26 +51,26 @@
 ;; Other keybindings
 (global-set-key (kbd "M-Z") #'zap-up-to-char)
 (global-set-key (kbd "M-p")
-		(lambda (arg)
-		  (interactive "p")
-		  (ignore-errors (scroll-down-line arg))
-		  (previous-line arg)))
+                (lambda (arg)
+                  (interactive "p")
+                  (ignore-errors (scroll-down-line arg))
+                  (previous-line arg)))
 (global-set-key (kbd "M-n")
-		(lambda (arg)
-		  (interactive "p")
-		  (ignore-errors (scroll-up-line arg))
-		  (next-line arg)))
+                (lambda (arg)
+                  (interactive "p")
+                  (ignore-errors (scroll-up-line arg))
+                  (next-line arg)))
 (define-key global-map [remap exchange-point-and-mark]
-	    (lambda ()
-	      (interactive)
-	      (exchange-point-and-mark (not mark-active))))
+            (lambda ()
+              (interactive)
+              (exchange-point-and-mark (not mark-active))))
 (defvar custom/night-mode nil)
 (global-set-key (kbd "s-n")
-		(lambda () (interactive)
-		  (if custom/night-mode
-		      (progn (set-frame-parameter (selected-frame) 'alpha 100) (load-theme 'modus-operandi-tinted))
-		    (progn (set-frame-parameter (selected-frame) 'alpha 96) (load-theme 'modus-vivendi-tinted)))
-		  (setq custom/night-mode (not custom/night-mode))))
+                (lambda () (interactive)
+                  (if custom/night-mode
+                      (progn (set-frame-parameter (selected-frame) 'alpha 100) (load-theme 'modus-operandi-tinted))
+                    (progn (set-frame-parameter (selected-frame) 'alpha 96) (load-theme 'modus-vivendi-tinted)))
+                  (setq custom/night-mode (not custom/night-mode))))
 
 ;; Packages
 (require 'package)
@@ -141,8 +150,8 @@
   :bind ("C-c d" . docker)
   :config
   (setf docker-command "podman"
-	docker-compose-command "podman-compose"
-	docker-container-tramp-method "podman"))
+        docker-compose-command "podman-compose"
+        docker-container-tramp-method "podman"))
 
 ;; Tramp
 (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
@@ -162,10 +171,11 @@
   (("C-c g" . gptel)
    ("C-c G" . (lambda () (interactive) (find-file (read-file-name "Find file: " gptel-chat-directory)))))
   :config
+  (define-key gptel-mode-map (kbd "C-c C-c") #'gptel-abort)
   (setq gptel-model 'deepseek-chat
-	gptel-backend (gptel-make-deepseek "DeepSeek" :stream t :key gptel-api-key))
+        gptel-backend (gptel-make-deepseek "DeepSeek" :stream t :key gptel-api-key))
   (gptel-make-anthropic "Claude" :stream t :key gptel-api-key)
-  (setq gptel--system-message "You are a precise, objective and non-subjective AI assistant living inside Emacs.")
+  (setq gptel--system-message "I am an experienced programmer. Be precise and concise.")
   (setq gptel--set-buffer-locally t)
   (add-hook 'gptel-mode-hook (lambda () (interactive) (setq default-directory gptel-chat-directory)))
   (add-hook 'gptel-mode-hook (lambda () (setq truncate-lines nil))))

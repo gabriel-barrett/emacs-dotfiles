@@ -15,12 +15,13 @@
  '(fido-vertical-mode t)
  '(fill-column 80)
  '(global-auto-revert-mode t)
+ '(indent-tabs-mode nil)
  '(isearch-wrap-pause 'no-ding)
  '(kill-read-only-ok t)
- '(next-screen-context-lines 8)
+ '(next-screen-context-lines 20)
  '(org-modules
    '(ol-bbdb ol-bibtex ol-docview ol-doi ol-eww ol-gnus ol-info ol-irc ol-mhe
-	     ol-rmail org-tempo ol-w3m))
+             ol-rmail org-tempo ol-w3m))
  '(package-vc-selected-packages
    '((lean4-mode :url "https://github.com/leanprover-community/lean4-mode.git")))
  '(pixel-scroll-precision-mode t)
@@ -28,6 +29,7 @@
  '(save-place-mode t)
  '(scroll-bar-mode nil)
  '(shift-select-mode 'permanent)
+ '(tab-width 4)
  '(tool-bar-style 'text)
  '(use-package-always-ensure t)
  '(use-short-answers t)
