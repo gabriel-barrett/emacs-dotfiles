@@ -181,9 +181,15 @@
   :config
   (define-key gptel-mode-map (kbd "C-c C-c") #'gptel-abort)
   (let ((deepseek (gptel-make-deepseek "DeepSeek" :stream t :key gptel-api-key))
-        (claude (gptel-make-anthropic "Claude" :stream t :key gptel-api-key)))
-    (setq gptel-model 'claude-opus-4-8
-          gptel-backend claude))
+        (claude (gptel-make-anthropic "Claude" :stream t :key gptel-api-key))
+        (zai (gptel-make-openai "z.ai"
+               :host "api.z.ai"
+               :endpoint "/api/paas/v4/chat/completions"
+               :stream t
+               :key gptel-api-key
+               :models '(glm-5.2))))
+    (setq gptel-model 'glm-5.2
+          gptel-backend zai))
   (setq gptel--system-message "I am an experienced programmer. Be precise and concise.")
   (setq gptel--set-buffer-locally t)
   (add-hook 'gptel-mode-hook (lambda () (interactive) (setq default-directory gptel-chat-directory)))
