@@ -8,7 +8,8 @@
   (let* ((height-base 120)
          (display-pixel-height-base 1080)
          (scale (/ (display-pixel-height) display-pixel-height-base))
-         (height (* scale height-base)))
+         (diminished-scale (/ (+ 1.5 scale) 2.5))
+         (height (round (* diminished-scale height-base))))
     (set-face-attribute 'default nil :height height)))
 (add-hook 'emacs-startup-hook #'custom/set-default-font-height)
 
@@ -91,6 +92,9 @@
 ;; Magit and Forge
 (use-package magit
   :defer t)
+(use-package magit-delta
+  :after magit
+  :hook (magit-mode . magit-delta-mode))
 (use-package forge
   :after magit)
 
@@ -113,6 +117,7 @@
 
 ;; God/Evil mode
 (defun custom/use-god-mode ()
+  (interactive)
   (use-package god-mode
     :custom
     (god-mode-alist '((nil . "C-") ("g" . "M-") ("," . "C-M-")))
@@ -126,6 +131,7 @@
     (require 'god-mode-isearch)))
 
 (defun custom/use-evil-mode ()
+  (interactive)
   (use-package evil
     :custom
     ((evil-want-C-u-scroll t)
@@ -137,7 +143,10 @@
      :map evil-normal-state-map
      ("C-'" . evil-emacs-state))
     :config
-    (evil-mode 1)))
+    (evil-mode 1)
+    (use-package evil-surround
+      :config
+      (global-evil-surround-mode 1))))
 
 ;; Icons, etc
 (use-package nerd-icons)
@@ -165,26 +174,25 @@
     (make-directory gptel-chat-directory t))
   :custom
   ((gptel-prompt-prefix-alist '((markdown-mode . "# ") (org-mode . "* ") (text-mode . "# ")))
-   (gptel-default-mode 'org-mode)
-   (gptel-temperature 0.0))
+   (gptel-default-mode 'org-mode))
   :bind
   (("C-c g" . gptel)
    ("C-c G" . (lambda () (interactive) (find-file (read-file-name "Find file: " gptel-chat-directory)))))
   :config
   (define-key gptel-mode-map (kbd "C-c C-c") #'gptel-abort)
-  (setq gptel-model 'deepseek-chat
-        gptel-backend (gptel-make-deepseek "DeepSeek" :stream t :key gptel-api-key))
-  (gptel-make-anthropic "Claude" :stream t :key gptel-api-key)
+  (let ((deepseek (gptel-make-deepseek "DeepSeek" :stream t :key gptel-api-key))
+        (claude (gptel-make-anthropic "Claude" :stream t :key gptel-api-key)))
+    (setq gptel-model 'claude-opus-4-8
+          gptel-backend claude))
   (setq gptel--system-message "I am an experienced programmer. Be precise and concise.")
   (setq gptel--set-buffer-locally t)
   (add-hook 'gptel-mode-hook (lambda () (interactive) (setq default-directory gptel-chat-directory)))
-  (add-hook 'gptel-mode-hook (lambda () (setq truncate-lines nil))))
+  (add-hook 'gptel-mode-hook #'visual-line-mode))
 
 (load (expand-file-name "langs.el" user-emacs-directory))
 (require 'langs)
 
 ;; Miscellaneous
 (put 'dired-find-alternate-file 'disabled nil)
-(set-face-attribute 'default nil :height 120)
 
 (provide 'init)
